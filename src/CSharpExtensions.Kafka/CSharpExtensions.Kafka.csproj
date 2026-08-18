@@ -1,0 +1,88 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>CSharpExtensions.Tests</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.S3" />
+    <PackageReference Include="Confluent.Kafka" />
+    <PackageReference Include="Dapper" />
+    <PackageReference Include="Microsoft.Data.SqlClient" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Microsoft.Extensions.Options" />
+    <PackageReference Include="StackExchange.Redis" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(UsePublishedToolsDependencies)' != 'true'">
+    <ProjectReference Include="..\CSharpExtensions.Kafka.Cli\CSharpExtensions.Kafka.Cli.csproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <OutputItemType>None</OutputItemType>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(UsePublishedToolsDependencies)' == 'true'">
+    <PackageReference Include="CSharpExtensions.Core" VersionOverride="[$(ToolsPackageVersion)]" />
+    <PackageReference Include="CSharpExtensions.AspNetCore" VersionOverride="[$(ToolsPackageVersion)]" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(UsePublishedToolsDependencies)' != 'true'">
+    <ProjectReference Include="..\CSharpExtensions.Core\CSharpExtensions.Core.csproj" />
+    <ProjectReference Include="..\CSharpExtensions.AspNetCore\CSharpExtensions.AspNetCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="build\CSharpExtensions.Kafka.targets" Pack="true" PackagePath="build\CSharpExtensions.Kafka.targets" />
+    <None Include="bin\$(Configuration)\net8.0\CSharpExtensions.Kafka.xml" Pack="true" PackagePath="build\CSharpExtensions.Kafka.xml" Condition="Exists('bin\$(Configuration)\net8.0\CSharpExtensions.Kafka.xml')" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);PackCliFiles</TargetsForTfmSpecificContentInPackage>
+  </PropertyGroup>
+
+  <Target Name="PackCliFiles">
+    <PropertyGroup>
+      <KafkaCliOutputDirectory>..\CSharpExtensions.Kafka.Cli\bin\$(Configuration)\net10.0</KafkaCliOutputDirectory>
+    </PropertyGroup>
+    <ItemGroup>
+      <_KafkaCliPackageAsset Include="$(KafkaCliOutputDirectory)\CSharpExtensions.Kafka.Cli.deps.json;
+                                      $(KafkaCliOutputDirectory)\CSharpExtensions.Kafka.Cli.dll;
+                                      $(KafkaCliOutputDirectory)\CSharpExtensions.Kafka.Cli.runtimeconfig.json;
+                                      $(KafkaCliOutputDirectory)\Microsoft.CodeAnalysis.CSharp.dll;
+                                      $(KafkaCliOutputDirectory)\Microsoft.CodeAnalysis.dll;
+                                      $(KafkaCliOutputDirectory)\THIRD-PARTY-NOTICES.rtf" />
+    </ItemGroup>
+    <Error Condition="!Exists('%(_KafkaCliPackageAsset.Identity)')"
+           Text="Required Kafka build-tool package asset '%(_KafkaCliPackageAsset.Identity)' is missing." />
+    <ItemGroup>
+      <TfmSpecificPackageFile Include="@(_KafkaCliPackageAsset)">
+        <PackagePath>tools/net10.0/%(Filename)%(Extension)</PackagePath>
+      </TfmSpecificPackageFile>
+    </ItemGroup>
+  </Target>
+
+  <Target Name="ValidatePublishedToolsDependencies"
+          BeforeTargets="Restore;Build;Pack"
+          Condition="'$(UsePublishedToolsDependencies)' == 'true'">
+    <Error Condition="'$(ToolsPackageVersion)' == ''"
+           Text="ToolsPackageVersion must be an exact full package version in published-dependency mode." />
+  </Target>
+
+</Project>

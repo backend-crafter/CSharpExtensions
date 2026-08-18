@@ -1,0 +1,8 @@
+<Solution>
+    <Project Path="src/CSharpExtensions.Core/CSharpExtensions.Core.csproj" />
+    <Project Path="src/CSharpExtensions.AspNetCore/CSharpExtensions.AspNetCore.csproj" />
+    <Project Path="src/CSharpExtensions.Kafka/CSharpExtensions.Kafka.csproj" />
+    <Project Path="src/CSharpExtensions.Kafka.Cli/CSharpExtensions.Kafka.Cli.csproj" />
+    <Project Path="src/CSharpExtensions.Security.Generators/CSharpExtensions.Security.Generators.csproj" />
+    <Project Path="tests/CSharpExtensions.Tests/CSharpExtensions.Tests.csproj" />
+</Solution>

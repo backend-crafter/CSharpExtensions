@@ -1,0 +1,27 @@
+<Project>
+  <Target Name="ValidateDirtyWorkingTreeProvenanceMode"
+          BeforeTargets="PrepareForBuild;GenerateNuspec"
+          Condition="'$(CSharpExtensionsDirtyWorkingTreeBuild)' == 'true'">
+    <Error Condition="'$(SourceControlInformationFeatureSupported)' != 'false'"
+           Text="Dirty local builds must pass SourceControlInformationFeatureSupported=false so packages cannot claim the current Git commit." />
+  </Target>
+
+  <Target Name="ValidateCSharpExtensionsPackageVersion"
+          BeforeTargets="GenerateNuspec"
+          Condition="'$(IsPackable)' == 'true'">
+    <Error Condition="'$(PackageVersion)' != '$(CSharpExtensionsVersion)'"
+           Text="Package $(PackageId) must use the synchronized CSharpExtensions version $(CSharpExtensionsVersion), but resolved $(PackageVersion)." />
+  </Target>
+
+  <Target Name="UseExactCSharpExtensionsProjectDependencyVersions"
+          AfterTargets="_GetProjectReferenceVersions"
+          BeforeTargets="GenerateNuspec"
+          Condition="'$(IsPackable)' == 'true' and '@(_ProjectReferencesWithVersions)' != ''">
+    <ItemGroup>
+      <_ProjectReferencesWithVersions Update="@(_ProjectReferencesWithVersions)"
+                                      Condition="$([System.String]::Copy('%(_ProjectReferencesWithVersions.Filename)').StartsWith('CSharpExtensions.'))">
+        <ProjectVersion>[$(CSharpExtensionsVersion)]</ProjectVersion>
+      </_ProjectReferencesWithVersions>
+    </ItemGroup>
+  </Target>
+</Project>

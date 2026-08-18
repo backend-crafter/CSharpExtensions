@@ -1,0 +1,71 @@
+# Build results
+**/bin/
+**/obj/
+[Dd]ebug/
+[Rr]elease/
+
+# Project Specific
+docs/
+GEMINI.md
+NuGet.Config
+!nuget.config
+cleanup_nexus_identifiers.ps1
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# NuGet Packages
+/.nuget/
+*.nupkg
+# NuGet Symbol Packages
+*.snupkg
+
+# Others
+~$*
+*~
+CodeCoverage/
+
+# MSBuild Binary and Structured Log
+*.binlog
+
+# MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# NUnit
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.DotSettings.user
+
+# Local configuration
+appsettings.Local.json
+
+# User Secrets
+secrets.json
+
+# IDE Files
+.vs/
+.idea/
+.vscode/
+*.swp
+*.LSO
+*.bak
+
+# Operating System Files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store

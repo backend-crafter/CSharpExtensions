@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>CSharpExtensions.Kafka.Cli</RootNamespace>
+    <AssemblyName>CSharpExtensions.Kafka.Cli</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <!-- The bundled build tool remains net8.0 but may run on newer SDK-only build agents. -->
+    <RollForward>Major</RollForward>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" GeneratePathProperty="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(PkgMicrosoft_CodeAnalysis_CSharp)\ThirdPartyNotices.rtf"
+          Link="THIRD-PARTY-NOTICES.rtf"
+          TargetPath="THIRD-PARTY-NOTICES.rtf"
+          CopyToOutputDirectory="PreserveNewest"
+          CopyToPublishDirectory="PreserveNewest"
+          Visible="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="CSharpExtensions.Tests" />
+  </ItemGroup>
+
+  <Target Name="ValidateRoslynThirdPartyNotices" BeforeTargets="Build">
+    <Error Condition="'$(PkgMicrosoft_CodeAnalysis_CSharp)' == '' or !Exists('$(PkgMicrosoft_CodeAnalysis_CSharp)\ThirdPartyNotices.rtf')"
+           Text="The authoritative Microsoft.CodeAnalysis.CSharp ThirdPartyNotices.rtf asset is missing from the restored package." />
+  </Target>
+
+</Project>

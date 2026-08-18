@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore CSharpExtensions.slnx
+
+    - name: Build solution (Release)
+      run: dotnet build CSharpExtensions.slnx -c Release --no-restore
+
+    - name: Run unit tests
+      run: dotnet test CSharpExtensions.slnx -c Release --no-build --verbosity normal
+
+    - name: Pack NuGet packages
+      run: dotnet pack CSharpExtensions.slnx -c Release --no-build

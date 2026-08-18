@@ -1,0 +1,46 @@
+<Project>
+  <Target Name="GenerateKafkaUpcasterChains" BeforeTargets="BeforeCompile;CoreCompile" Condition="'$(EnableKafkaUpcasterGenerator)' == 'true' and '$(DisableKafkaUpcasterGenerator)' != 'true' and '$(DesignTimeBuild)' != 'true' and '$(BuildingProject)' == 'true'">
+    <PropertyGroup>
+      <KafkaGeneratorDll>$(MSBuildThisFileDirectory)../tools/net8.0/CSharpExtensions.Kafka.Cli.dll</KafkaGeneratorDll>
+      <KafkaDotNetHostFileName Condition="'$(OS)' == 'Windows_NT'">dotnet.exe</KafkaDotNetHostFileName>
+      <KafkaDotNetHostFileName Condition="'$(KafkaDotNetHostFileName)' == ''">dotnet</KafkaDotNetHostFileName>
+      <KafkaDerivedDotNetHostPath>$([System.IO.Path]::GetFullPath('$(MSBuildToolsPath)/../../$(KafkaDotNetHostFileName)'))</KafkaDerivedDotNetHostPath>
+      <KafkaDotNetHostPath Condition="'$(DotNetHostPath)' != ''">$(DotNetHostPath)</KafkaDotNetHostPath>
+      <KafkaDotNetHostPath Condition="'$(KafkaDotNetHostPath)' == '' and '$(DOTNET_HOST_PATH)' != ''">$(DOTNET_HOST_PATH)</KafkaDotNetHostPath>
+      <KafkaDotNetHostPath Condition="'$(KafkaDotNetHostPath)' == '' and Exists('$(KafkaDerivedDotNetHostPath)')">$(KafkaDerivedDotNetHostPath)</KafkaDotNetHostPath>
+      <KafkaContractsArgument Condition="'$(KafkaContractsDirectory)' != ''"> --contracts-dir &quot;$(KafkaContractsDirectory)&quot;</KafkaContractsArgument>
+      <KafkaGeneratorCommand>&quot;$(KafkaDotNetHostPath)&quot; &quot;$(KafkaGeneratorDll)&quot; --project-dir &quot;$(MSBuildProjectDirectory)&quot; --project-file &quot;$(MSBuildProjectFullPath)&quot;$(KafkaContractsArgument)</KafkaGeneratorCommand>
+    </PropertyGroup>
+
+    <Error Condition="'$(KafkaDotNetHostPath)' == '' or !Exists('$(KafkaDotNetHostPath)')"
+           Text="[CSharpExtensions Kafka] A trusted dotnet host could not be resolved for the upcaster generator." />
+    <Error Condition="!Exists('$(KafkaGeneratorDll)')"
+           Text="[CSharpExtensions Kafka] The bundled upcaster generator is missing: $(KafkaGeneratorDll)" />
+    <Message Importance="high" Text="[CSharpExtensions Kafka] Running Upcaster Chain Generator..." />
+    <Exec Command="$(KafkaGeneratorCommand)" StandardOutputImportance="low" StandardErrorImportance="high" />
+
+    <!-- Dynamically include the generated C# files in the current compilation, avoiding CS2002 warnings -->
+    <ItemGroup>
+      <Compile Remove="upcast-chains\**\*.cs" />
+      <Compile Remove="upcast-resolver\**\*.cs" />
+      <Compile Include="upcast-chains\**\*.cs" />
+      <Compile Include="upcast-resolver\**\*.cs" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="CopyKafkaXmlToOutput" AfterTargets="ResolveReferences">
+    <PropertyGroup>
+      <KafkaXmlSourcePath>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)CSharpExtensions.Kafka.xml'))</KafkaXmlSourcePath>
+    </PropertyGroup>
+    <Message Importance="high" Text="[CSharpExtensions Kafka] Checking for XML file at: $(KafkaXmlSourcePath)" />
+    <Message Importance="high" Text="[CSharpExtensions Kafka] XML file exists: $([System.IO.File]::Exists('$(KafkaXmlSourcePath)'))" />
+    
+    <ItemGroup>
+      <ReferenceCopyLocalPaths Include="$(KafkaXmlSourcePath)" Condition="Exists('$(KafkaXmlSourcePath)')" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="CopyKafkaXmlToPublish" AfterTargets="Publish">
+    <Copy SourceFiles="$(OutDir)CSharpExtensions.Kafka.xml" DestinationFolder="$(PublishDir)" Condition="Exists('$(OutDir)CSharpExtensions.Kafka.xml')" SkipUnchangedFiles="true" />
+  </Target>
+</Project>
