@@ -841,9 +841,12 @@ dotnet run --project src/CSharpExtensions.Kafka.Cli -- \
 - [x] **Source Generators**: Compile-time zero-allocation PII masking.
 - [x] **Kafka Ecosystem**: Transactional outbox, S3 claim check, Redis deduplication, Circuit Breaker, Handlers & Streaming Consumers.
 - [x] **OpenID Connect & Trusted Publishing**: Zero-secret automated NuGet publication via GitHub Actions.
-- [ ] **OpenTelemetry Integration**: Distributed tracing spans for outbox publishing and consumer pipeline steps.
+- [ ] **Bitmask Permission Engine**: High-performance stack-allocated byte/bitmask permission evaluation (`[RequirePermission]`) with domain categorization.
+- [ ] **Native .NET 10 OpenAPI Migration**: Transition from Swashbuckle to native `Microsoft.AspNetCore.OpenApi` with built-in transformer pipelines and Scalar UI.
+- [ ] **OpenTelemetry Structured Logging**: Zero-allocation OpenTelemetry log exporters with automated PII masking and redaction boundaries.
+- [ ] **OpenTelemetry Distributed Tracing**: Native `ActivitySource` tracing spans for Kafka consumer pipeline, Outbox publishing, and HTTP actor propagation.
 - [ ] **PostgreSQL Outbox Engine**: Native `pg_notify` / LISTEN-NOTIFY realtime outbox dispatcher.
-- [ ] **Rate Limiting & Token Bucket**: Distributed token bucket actor rate limiting via Redis.
+- [ ] **Distributed Rate Limiting**: Token-bucket actor rate limiting with Redis sliding windows.
 
 ---
 
