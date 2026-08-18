@@ -1,9 +1,11 @@
 # CSharpExtensions
 
-![CSharpExtensions Banner](https://placehold.co/1200x250/1e1e2e/cdd6f4?text=CSharpExtensions+%7C+High-Load+.NET+10+Foundation+%26+Event-Driven+Architecture)
+<div align="center">
 
-> **Enterprise-grade, zero-allocation foundation & event-driven microservices framework for .NET 10 & C# 15.**
-> Built from real-world high-throughput production architecture (3.5M+ RPM) with native Railway Oriented Programming (ROP), compile-time Roslyn PII security, actor authorization, transactional Kafka outbox, and resilient event streaming.
+[![CSharpExtensions](https://placehold.co/1200x200/1e1e2e/cdd6f4.png?text=CSharpExtensions)](https://github.com/backend-crafter/CSharpExtensions)
+
+### High-Performance .NET 10 Foundation & Resilient Event-Driven Architecture
+*Engineered for distributed high-load systems (3.5M+ RPM) with Railway Oriented Programming (ROP), zero-allocation PII security, actor context authorization, and transactional Kafka messaging.*
 
 [![CI](https://github.com/backend-crafter/CSharpExtensions/actions/workflows/ci.yml/badge.svg)](https://github.com/backend-crafter/CSharpExtensions/actions/workflows/ci.yml)
 [![Publish to NuGet](https://github.com/backend-crafter/CSharpExtensions/actions/workflows/publish.yml/badge.svg)](https://github.com/backend-crafter/CSharpExtensions/actions/workflows/publish.yml)
@@ -11,41 +13,43 @@
 [![Platform](https://img.shields.io/badge/Platform-.NET%2010.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![Language](https://img.shields.io/badge/Language-C%23%2015.0-239120?logo=csharp)](https://learn.microsoft.com/dotnet/csharp/)
 
+</div>
+
 ---
 
 ## 🧠 Architectural Philosophy
 
 Modern enterprise distributed systems frequently suffer from three fundamental architectural flaws:
-1. **Control-Flow Exceptions**: Using exceptions for business logic creates massive GC pressure, destroys throughput, and obscures application failure paths.
-2. **Data Leaks & PII Exposure**: Runtime reflection-based logging and masking leak sensitive data (GDPR/PCI-DSS violations) or severely degrade request latency.
-3. **Dual-Write Inconsistency**: Direct writes to database + direct publishing to message brokers lead to silent data divergence during network partitions and server crashes.
+1. **Control-Flow Exceptions**: Using exceptions for expected business logic creates massive GC pressure, destroys throughput, and obscures failure paths.
+2. **Data Leaks & PII Exposure**: Runtime reflection-based logging leaks sensitive data (GDPR / PCI-DSS compliance violations) or severely degrades request latency.
+3. **Dual-Write Inconsistency**: Direct database writes combined with raw broker publishing lead to silent data divergence during network partitions and server restarts.
 
 **`CSharpExtensions`** solves these challenges natively at compile-time and runtime:
 
 ```mermaid
 flowchart TD
-    subgraph ClientLayer ["Client / Ingress Layer"]
+    subgraph ClientLayer ["1. Client / Ingress Layer"]
         HTTP["HTTP API Request"]
-        KafkaMsg["Kafka Event Message"]
+        KafkaMsg["Kafka Event Record"]
     end
 
-    subgraph SecurityLayer ["Security & Context Layer"]
+    subgraph SecurityLayer ["2. Security & Context Layer"]
         Actor["ActorContext Middleware\n(User vs Employee vs Service)"]
         PII["Roslyn Source-Generated PII Masking\n(Zero-Allocation)"]
         AEAD["AES-GCM v2 Authenticated Encryption\n(Key Ring & Purpose Binding)"]
     end
 
-    subgraph DomainLayer ["Domain Execution (Railway Oriented)"]
+    subgraph DomainLayer ["3. Domain Execution (Railway Oriented)"]
         ROP["Result<T> Functional Railway Pipeline\n(Ensure -> Map -> Bind -> Tap)"]
     end
 
-    subgraph PersistenceLayer ["Transactional Infrastructure"]
+    subgraph PersistenceLayer ["4. Transactional Infrastructure"]
         Outbox["Transactional Outbox Pattern\n(Dual-Write Prevention)"]
-        EventStream["Kafka Resilient Consumer Pipeline\n(Deduplication -> Claim Check -> Upcasting)"]
+        ConsumerPipe["Kafka Resilient Consumer Pipeline\n(Dedup -> Claim Check -> Signature -> Upcast -> Handler)"]
     end
 
     HTTP --> Actor --> ROP
-    KafkaMsg --> EventStream --> ROP
+    KafkaMsg --> ConsumerPipe --> ROP
     ROP --> Outbox
     ROP --> AEAD
     ROP --> PII
@@ -57,13 +61,13 @@ flowchart TD
 
 The ecosystem is structured into three cohesive packages, a Roslyn source generator, and a developer CLI tool:
 
-| Package | Purpose | Target | NuGet Status |
+| Package | Description | Target | NuGet Status |
 | :--- | :--- | :--- | :--- |
 | **[`CSharpExtensions.Core`](src/CSharpExtensions.Core)** | Railway Oriented Programming (`Result<T>`), AEAD Crypto, UUIDv7, PII Security, Phone Normalization, Sharding. | `net10.0` | [![NuGet](https://img.shields.io/nuget/v/CSharpExtensions.Core.svg?logo=nuget)](https://www.nuget.org/packages/CSharpExtensions.Core) |
 | **[`CSharpExtensions.AspNetCore`](src/CSharpExtensions.AspNetCore)** | Hybrid Auth (JWT + S2S), Actor Context, RFC 7807 `ProblemDetails`, OpenAPI/Swagger filters, CORS. | `net10.0` | [![NuGet](https://img.shields.io/nuget/v/CSharpExtensions.AspNetCore.svg?logo=nuget)](https://www.nuget.org/packages/CSharpExtensions.AspNetCore) |
-| **[`CSharpExtensions.Kafka`](src/CSharpExtensions.Kafka)** | Transactional Outbox, S3 Claim Check, Redis Deduplication, Circuit Breaker, Schema Upcasting, Diagnostic Hosted Services. | `net10.0` | [![NuGet](https://img.shields.io/nuget/v/CSharpExtensions.Kafka.svg?logo=nuget)](https://www.nuget.org/packages/CSharpExtensions.Kafka) |
+| **[`CSharpExtensions.Kafka`](src/CSharpExtensions.Kafka)** | Strongly typed Message Bus, Declarative Handlers, Outbox, S3 Claim Check, Redis Deduplication, Circuit Breaker, Upcasting, Maintenance Endpoints. | `net10.0` | [![NuGet](https://img.shields.io/nuget/v/CSharpExtensions.Kafka.svg?logo=nuget)](https://www.nuget.org/packages/CSharpExtensions.Kafka) |
 | **[`CSharpExtensions.Security.Generators`](src/CSharpExtensions.Security.Generators)** | Compile-time Roslyn Source Generator for zero-allocation `[SensitiveData]` masking. | `netstandard2.0` | *Included in Core* |
-| **[`CSharpExtensions.Kafka.Cli`](src/CSharpExtensions.Kafka.Cli)** | CLI tool for automated schema upcaster generation from C# contract records. | `net10.0` | Global Tool |
+| **[`CSharpExtensions.Kafka.Cli`](src/CSharpExtensions.Kafka.Cli)** | Command-line tool for automated schema upcaster generation from C# contract records. | `net10.0` | Global Tool |
 
 ---
 
@@ -88,8 +92,220 @@ dotnet add package CSharpExtensions.Kafka
 
 ---
 
-### 1. Railway Oriented Programming (ROP) — `CSharpExtensions.Core`
+## 1. `CSharpExtensions.Kafka` — Enterprise Event Streaming & Messaging
 
+`CSharpExtensions.Kafka` is not just a thin wrapper over `Confluent.Kafka`. It is a complete, resilient messaging framework providing transactional reliability, declarative subscription handlers, automated schema evolution, and self-healing infrastructure.
+
+### 1.1 Declarative Handler Subscriptions (`IMessageHandler<T>`)
+
+Write clean, scoped domain handlers with functional `Result` return types:
+
+```csharp
+using CSharpExtensions.Core.Railway;
+using CSharpExtensions.Kafka.Abstractions;
+
+// 1. Define Message Contract
+public class EventsOrdersOrderPlacedV1
+{
+    public const string MessageType = "Events";
+    public const string Domain = "Orders";
+    public const string Aggregate = "Order";
+    public const string Action = "Placed";
+    public int Version => 1;
+
+    public Guid OrderId { get; set; }
+    public Guid UserId { get; set; }
+    public decimal Amount { get; set; }
+    public DateTime OccurredAtUtc { get; set; }
+}
+
+// 2. Define Scoped Message Handler
+public class OrderPlacedHandler : IMessageHandler<EventsOrdersOrderPlacedV1>
+{
+    private readonly IInventoryService _inventoryService;
+    private readonly ILogger<OrderPlacedHandler> _logger;
+
+    public OrderPlacedHandler(IInventoryService inventoryService, ILogger<OrderPlacedHandler> logger)
+    {
+        _inventoryService = inventoryService;
+        _logger = logger;
+    }
+
+    public async Task<Result> HandleAsync(EventsOrdersOrderPlacedV1 message, CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("Processing order {OrderId} for User {UserId}", message.OrderId, message.UserId);
+        
+        return await _inventoryService.ReserveStockAsync(message.OrderId, cancellationToken);
+    }
+}
+```
+
+#### Registration in `Program.cs`
+Register the subscription declaratively in a single line — the hosted service automatically manages consumer lifecycle, partition assignments, and scoped handler execution:
+
+```csharp
+services.AddKafka(builder.Configuration, kafka =>
+{
+    // Subscribe with automatic Handler execution
+    kafka.Subscribe<EventsOrdersOrderPlacedV1>(subscription =>
+    {
+        subscription.AddHandler<OrderPlacedHandler>();
+        subscription.ConsumerGroup = "inventory-service.orders.reserve-stock";
+        subscription.ReadMode = KafkaReadMode.Latest;
+    });
+});
+```
+
+---
+
+### 1.2 Pull-Based Streaming Consumer (`IKafkaConsumer<T>`)
+
+For high-throughput streaming workloads, batch processors, or custom background workers where you need direct control over offsets:
+
+```csharp
+// 1. Register subscription without AddHandler
+services.AddKafka(configuration, kafka =>
+{
+    kafka.Subscribe<EventsOrdersOrderPlacedV1>(subscription =>
+    {
+        subscription.ConsumerGroup = "analytics-worker.orders.stream";
+    });
+});
+
+// 2. Inject IKafkaConsumer<T> into a BackgroundService
+public class OrderAnalyticsWorker(
+    IKafkaConsumer<EventsOrdersOrderPlacedV1> consumer,
+    ILogger<OrderAnalyticsWorker> logger) : BackgroundService
+{
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        await foreach (ConsumeContext<EventsOrdersOrderPlacedV1> context in consumer.ConsumeAsync(stoppingToken))
+        {
+            try
+            {
+                var order = context.Message;
+                string correlationId = context.CorrelationId;
+
+                await ProcessAnalyticsBatchAsync(order, stoppingToken);
+
+                // Explicit acknowledgment (commits Kafka offset)
+                await context.AcknowledgeAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Failed processing message {MessageId}", context.MessageId);
+                
+                // Rejects and routes to Dead Letter Queue (DLQ) if configured, then commits offset
+                await context.RejectAsync(ex.Message);
+            }
+        }
+    }
+}
+```
+
+---
+
+### 1.3 Transactional Outbox Pattern (Dual-Write Prevention)
+
+Guarantee at-least-once delivery by writing your domain entities and Kafka events into the **same atomic database transaction**. The background `KafkaOutboxProcessor` polls and publishes them durably.
+
+```csharp
+using CSharpExtensions.Kafka.Abstractions;
+
+public class OrderService(
+    IOrderRepository orderRepository,
+    IOutboxPublisher outboxPublisher,
+    IDbConnectionFactory dbFactory)
+{
+    public async Task<Result<Guid>> CreateOrderAsync(CreateOrderCommand command, CancellationToken ct)
+    {
+        using var connection = await dbFactory.CreateConnectionAsync(ct);
+        using var transaction = connection.BeginTransaction();
+
+        try
+        {
+            var orderId = GuidHelper.CreateVersion7();
+            
+            // 1. Save Domain Entity in SQL
+            await orderRepository.InsertAsync(orderId, command, connection, transaction, ct);
+
+            // 2. Enqueue Outbox Event (Atomic SQL write)
+            var orderPlaced = new EventsOrdersOrderPlacedV1
+            {
+                OrderId = orderId,
+                UserId = command.UserId,
+                Amount = command.Amount,
+                OccurredAtUtc = DateTime.UtcNow
+            };
+            
+            await outboxPublisher.EnqueueAsync(
+                message: orderPlaced, 
+                dbTransaction: transaction, 
+                messageKey: orderId.ToString(), 
+                cancellationToken: ct);
+
+            transaction.Commit();
+            return Result.Success(orderId);
+        }
+        catch (Exception ex)
+        {
+            transaction.Rollback();
+            return Result.Failure<Guid>(Error.Unexpected("Order.DatabaseError", ex.Message));
+        }
+    }
+}
+```
+
+---
+
+### 1.4 Resilient Middleware Pipeline
+
+Every incoming Kafka record traverses a hardened consumer pipeline before reaching your handler:
+
+```mermaid
+flowchart LR
+    Msg[Kafka Record] --> Dedup[1. Redis Deduplication]
+    Dedup --> S3[2. S3 Claim Check Download]
+    S3 --> Sig[3. HMAC Signature Verification]
+    Sig --> Upcast[4. Schema Evolution & Upcasting\nV1 -> V2 -> V3]
+    Upcast --> Deser[5. System.Text.Json Deserialization]
+    Deser --> CB[6. Circuit Breaker & Retry]
+    CB --> Handler[7. IMessageHandler]
+```
+
+1. **Redis Deduplication**: Distributed sliding-window duplicate detector prevents reprocessing duplicate event deliveries.
+2. **S3 Claim Check Offloading**: Automatically offloads payloads > 1MB to AWS S3 / MinIO and transparently downloads them on consume.
+3. **HMAC Signature Verification**: Validates payload integrity and cryptographic origin.
+4. **Schema Evolution (Upcasters)**: Automatically upcasts older event versions (`V1 -> V2 -> V3`) at runtime without breaking active consumers.
+5. **Circuit Breaker**: Detects downstream database or service outages, pauses partition consumption, and resumes automatically with backoff.
+
+---
+
+### 1.5 Kafka Diagnostics & Maintenance Endpoints
+
+Enable automated database cleanup and built-in REST management endpoints:
+
+```csharp
+services.AddKafka(configuration, kafka =>
+{
+    kafka.UseOutbox("OrdersDbConnectionString", "dbo", outbox =>
+    {
+        outbox.BatchSize = 200;
+        outbox.PollingIntervalMs = 150;
+    });
+
+    kafka.UseMessageAssembly();   // Multi-segment message reassembly
+    kafka.UseStagedJobs("DefaultConnection"); // Durable SQL retry queue
+    kafka.UseMaintenance();       // Periodic outbox pruning & distributed lock
+    kafka.UseMaintenanceEndpoints(); // Exposes Swagger UI for lag & DLQ management
+});
+```
+
+---
+
+## 2. `CSharpExtensions.Core` — Zero-Allocation Foundation & ROP
+
+### 2.1 Railway Oriented Programming (ROP)
 Eliminate `try/catch` control-flow antipatterns. Model success and business failures explicitly with `Result<T>` and strongly typed `Error` records.
 
 #### Fluent Railway Composition
@@ -130,16 +346,13 @@ Error.Unexpected("Database.Timeout", "Upstream persistence timed out");
 
 ---
 
-### 2. Zero-Allocation Security & AEAD Encryption — `CSharpExtensions.Core`
+### 2.2 Zero-Allocation Security & AEAD Encryption
 
 #### AES-GCM v2 (Authenticated Encryption with Associated Data)
 Modern authenticated encryption with AEAD integrity verification, Key Ring rotation support, and purpose binding:
 
 ```csharp
 using CSharpExtensions.Core.Security.Cryptography;
-
-// Configure via DI with active key rotation and purpose binding
-services.AddSingleton<IEncryptionService, EncryptionService>();
 
 // Encrypt plaintext with AEAD verification
 string envelope = encryptionService.Encrypt("secret-data"); 
@@ -153,7 +366,7 @@ if (encryptionService.TryDecrypt(envelope, out string plaintext))
 ```
 
 #### Roslyn Source-Generated PII Masking
-Zero runtime reflection. Mask sensitive logs at compile-time:
+Zero runtime reflection. Mask sensitive logs at compile-time with 0 B memory allocation:
 
 ```csharp
 using CSharpExtensions.Core.Security.Pii;
@@ -193,9 +406,9 @@ CursorPagedList<Order, Guid> page = await query.ToCursorPagedListAsync(
 
 ---
 
-### 3. ASP.NET Core & Actor Context — `CSharpExtensions.AspNetCore`
+## 3. `CSharpExtensions.AspNetCore` — Actor Context & Web Standards
 
-#### Unified Actor Authorization (`User` vs `Employee` vs `Service`)
+### 3.1 Unified Actor Authorization (`User` vs `Employee` vs `Service`)
 Differentiate clients, internal employees, and backend services with a strongly typed `IActorContext`:
 
 ```csharp
@@ -250,84 +463,9 @@ public class OrdersController : ControllerBase
 
 ---
 
-### 4. Enterprise Kafka & Transactional Outbox — `CSharpExtensions.Kafka`
-
-#### Transactional Outbox Dual-Write Prevention
-Guarantees at-least-once message delivery by committing outbox records in the same atomic SQL transaction as business data:
-
-```csharp
-using CSharpExtensions.Kafka.Abstractions;
-
-public async Task<Result<Unit>> PlaceOrderAsync(Order order, CancellationToken ct)
-{
-    using var connection = await _db.CreateConnectionAsync(ct);
-    using var transaction = connection.BeginTransaction();
-
-    try
-    {
-        // 1. Save Domain Entity
-        await _orderRepository.InsertAsync(order, connection, transaction, ct);
-
-        // 2. Enqueue Outbox Event (Atomic with the SQL transaction)
-        var orderEvent = new EventsOrdersOrderPlacedV1
-        {
-            OrderId = order.Id,
-            UserId = order.UserId,
-            Amount = order.TotalAmount,
-            OccurredAtUtc = DateTime.UtcNow
-        };
-        await _messageBus.PublishOutboxAsync(orderEvent, connection, transaction, ct);
-
-        transaction.Commit();
-        return Result.Success(Unit.Value);
-    }
-    catch (Exception ex)
-    {
-        transaction.Rollback();
-        return Result.Failure<Unit>(Error.Unexpected("Order.DatabaseError", ex.Message));
-    }
-}
-```
-
-#### Advanced Consumer Pipeline
-The Kafka consumer executes a modular, resilient pipeline before delivering events to your handlers:
-
-```mermaid
-flowchart LR
-    Msg[Kafka Record] --> Dedup[Redis Deduplication]
-    Dedup --> S3[S3 Claim Check Download]
-    S3 --> Sig[HMAC Signature Verification]
-    Sig --> Upcast[Schema Evolution & Upcasting\nV1 -> V2 -> V3]
-    Upcast --> Deser[System.Text.Json Deserialization]
-    Deser --> CB[Circuit Breaker & Retry]
-    CB --> Handler[Domain IMessageHandler]
-```
-
-#### Resilient Consumer Registration
-```csharp
-services.AddKafkaMessaging(options =>
-{
-    options.BootstrapServers = "kafka:9092";
-    options.Deduplication.IsEnabled = true;
-    options.Deduplication.RedisConnectionAlias = "default";
-    options.ClaimCheck.IsEnabled = true;
-    options.ClaimCheck.S3BucketName = "message-payloads";
-    options.Outbox.IsEnabled = true;
-    options.Outbox.ConnectionStringName = "Databases:Orders:ConnectionStrings";
-})
-.AddConsumer<EventsOrdersOrderPlacedV1, OrderPlacedHandler>(subscription =>
-{
-    subscription.ConsumerGroup = "orders-service.billing.process-order";
-    subscription.ReadMode = KafkaReadMode.Latest;
-    subscription.DeadLetterQueueEnabled = true;
-});
-```
-
----
-
 ## 📊 Performance & Benchmarks
 
-All core primitives are built for zero-allocation and minimal GC pause times in high-throughput environments:
+All core primitives are designed for zero-allocation hot paths and minimal GC pause times in high-throughput microservices:
 
 | Primitive | Operation | Throughput | Memory Allocation | GC Gen 0/1/2 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -342,7 +480,7 @@ All core primitives are built for zero-allocation and minimal GC pause times in 
 
 ## 🛠️ Developer CLI Tool (`CSharpExtensions.Kafka.Cli`)
 
-Generate backward-compatible upcasters automatically when modifying Kafka message contracts:
+Generate backward-compatible schema upcasters automatically when modifying Kafka message contracts:
 
 ```bash
 # Run upcaster generator across contract files
@@ -359,7 +497,7 @@ dotnet run --project src/CSharpExtensions.Kafka.Cli -- \
 - [x] **.NET 10 & C# 15 Alignment**: Complete nullable reference types, sealed records, implicit usings.
 - [x] **Railway Oriented Programming**: Struct-backed `Result<T>`, LINQ query comprehension, RFC 7807 integration.
 - [x] **Source Generators**: Compile-time zero-allocation PII masking.
-- [x] **Kafka Ecosystem**: Transactional outbox, S3 claim check, Redis deduplication, Circuit Breaker.
+- [x] **Kafka Messaging**: Transactional outbox, S3 claim check, Redis deduplication, Circuit Breaker, Handlers & Streaming Consumers.
 - [x] **OpenID Connect & Trusted Publishing**: Zero-secret automated NuGet publication via GitHub Actions.
 - [ ] **OpenTelemetry Integration**: Distributed tracing spans for outbox publishing and consumer pipeline steps.
 - [ ] **PostgreSQL Outbox Engine**: Native `pg_notify` / LISTEN-NOTIFY realtime outbox dispatcher.
@@ -369,7 +507,7 @@ dotnet run --project src/CSharpExtensions.Kafka.Cli -- \
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome! Feel free to check [issues page](https://github.com/backend-crafter/CSharpExtensions/issues).
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/backend-crafter/CSharpExtensions/issues).
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
