@@ -10,9 +10,8 @@ using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 /// <summary>
-/// Validates that message types follow naming conventions at startup.
-/// Enforces: userId (Client/User), employeeId (Employee/Staff), presence of TenantId/PartnerId, and strict camelCase naming.
-/// Prohibits legacy terms (e.g. playerId, memberId, clientId).
+/// Validates that message types follow domain naming conventions at startup.
+/// Enforces canonical identity identifiers (UserId, EmployeeId), TenantId/PartnerId multi-tenancy envelopes, and strict camelCase property naming.
 /// </summary>
 public static class MessageNamingConventionValidator
 {

@@ -329,7 +329,7 @@ The framework enforces strict naming conventions at application startup:
 *   **Topic Pattern:** `[message-type].[domain].[aggregate].[action].[version]` (e.g., `events.orders.order.placed.v1`)
 *   **GroupId Pattern:** `[consumer_service].[domain].[aggregate].[task]` (e.g., `inventory-service.orders.order.reserve-stock`)
 *   **Strict Segment Regex:** Each segment must strictly match `^[a-z0-9]+(-[a-z0-9]+)*$` (lowercase alphanumeric with single hyphens).
-*   **Zero-Legacy Rule:** Properties with legacy names (`PlayerId`, `MemberId`, `ClientId`) are strictly prohibited and fail validation at startup.
+*   **Standard Identity Conventions:** Event contracts must use canonical domain identifiers (`UserId` for client/user context or `EmployeeId` for staff/operator context). Ambiguous or non-canonical identity property names are rejected at startup.
 
 ---
 
