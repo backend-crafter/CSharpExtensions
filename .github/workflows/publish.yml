@@ -51,7 +51,7 @@ jobs:
     - name: Authenticate with NuGet via OIDC (Trusted Publisher)
       uses: NuGet/login@v1
       with:
-        owner: backend-crafter
+        user: backend-crafter
 
     - name: Push packages to NuGet.org
       run: dotnet nuget push artifacts/*.nupkg --source https://api.nuget.org/v3/index.json --skip-duplicate

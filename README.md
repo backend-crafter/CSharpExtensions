@@ -21,42 +21,41 @@
 
 ## 📋 Table of Contents
 1. [Architectural Philosophy](#1-architectural-philosophy)
-2. [Modular Ecosystem](#2-modular-ecosystem)
-3. [Quick Installation](#3-quick-installation)
-4. [Kafka Integration (`CSharpExtensions.Kafka`)](#4-kafka-integration-csharpextensionskafka)
-   * [Declarative Handler Subscriptions (`IMessageHandler<T>`)](#41-declarative-handler-subscriptions-imessagehandlert)
-   * [Streaming Pull Consumer (`IKafkaConsumer<T>`)](#42-streaming-pull-consumer-ikafkaconsumert)
-   * [Transactional Outbox Pattern](#43-transactional-outbox-pattern-dual-write-prevention)
-   * [Resilient 7-Step Consumer Pipeline](#44-resilient-7-step-consumer-pipeline)
-   * [Topic & Consumer Group Naming Conventions](#45-topic--consumer-group-naming-conventions)
-   * [Stateful Aggregators & Staged Jobs Engine](#46-stateful-aggregators--staged-jobs-engine)
-   * [Historical Replay & Topic Watermark Recovery](#47-historical-replay--topic-watermark-recovery)
-   * [Automated Maintenance & Swagger UI Controller](#48-automated-maintenance--swagger-ui-controller)
-   * [Complete Configuration Reference](#49-complete-configuration-reference-appsettingsjson)
-5. [Core Foundation & Functional Flow (`CSharpExtensions.Core`)](#5-core-foundation--functional-flow-csharpextensionscore)
-   * [Railway Oriented Programming (ROP)](#51-railway-oriented-programming-rop)
-   * [Typed Error Hierarchy](#52-typed-error-hierarchy)
-   * [ROP Retries & Jitter (`TryResultAgainAsync`)](#53-rop-retries--jitter-tryresultagainasync)
-   * [ROP Pipeline Logging (`ResultLoggingExtensions`)](#54-rop-pipeline-logging-resultloggingextensions)
-   * [Safe JSON Engine & Merge Utilities](#55-safe-json-engine--merge-utilities)
-   * [AES-GCM v2 Authenticated Encryption (AEAD)](#56-aes-gcm-v2-authenticated-encryption-aead)
-   * [Roslyn Source Generator PII Masking (`[SensitiveData]`)](#57-roslyn-source-generator-pii-masking-sensitivedata)
-   * [Cryptographic Secrets, Hashes & Bias-Free OTPs](#58-cryptographic-secrets-hashes--bias-free-otps)
-   * [ID Obfuscation with Sqids](#59-id-obfuscation-with-sqids-iidentifierservice)
-   * [Phone Validation & E.164 Normalization](#510-phone-validation--e164-normalization)
-   * [RFC 9562 Monotonic UUIDv7 & Keyset Pagination](#511-rfc-9562-monotonic-uuidv7--keyset-pagination)
-   * [Database Sharding Options & SQL Health Checks](#512-database-sharding-options--sql-health-checks)
-6. [ASP.NET Core & Security (`CSharpExtensions.AspNetCore`)](#6-aspnet-core--security-csharpextensionsaspnetcore)
-   * [Unified Actor Authorization Engine (`IActorContext`)](#61-unified-actor-authorization-engine-iactorcontext)
-   * [Hybrid Authentication (JWT + S2S Header Auth)](#62-hybrid-authentication-jwt--s2s-header-auth)
-   * [ROP to RFC 7807 ProblemDetails Mapping](#63-rop-to-rfc-7807-problemdetails-mapping)
-   * [Base Health Controller & Build Metadata](#64-base-health-controller--build-metadata)
-   * [Hardened CORS & Correlation Tracking](#65-hardened-cors--correlation-tracking)
-   * [OpenAPI / Swagger Integration](#66-openapi--swagger-integration)
-7. [Benchmarks & Performance](#7-benchmarks--performance)
-8. [Developer CLI (`CSharpExtensions.Kafka.Cli`)](#8-developer-cli-csharpextensionskafkacli)
-9. [Roadmap](#9-roadmap)
-10. [License & Author](#10-license--author)
+2. [Modular Ecosystem & Packages](#2-modular-ecosystem--packages)
+3. [Kafka Integration (`CSharpExtensions.Kafka`)](#3-kafka-integration-csharpextensionskafka)
+   * [Declarative Handler Subscriptions (`IMessageHandler<T>`)](#31-declarative-handler-subscriptions-imessagehandlert)
+   * [Streaming Pull Consumer (`IKafkaConsumer<T>`)](#32-streaming-pull-consumer-ikafkaconsumert)
+   * [Transactional Outbox Pattern](#33-transactional-outbox-pattern-dual-write-prevention)
+   * [Resilient 7-Step Consumer Pipeline](#34-resilient-7-step-consumer-pipeline)
+   * [Topic & Consumer Group Naming Conventions](#35-topic--consumer-group-naming-conventions)
+   * [Stateful Aggregators & Staged Jobs Engine](#36-stateful-aggregators--staged-jobs-engine)
+   * [Historical Replay & Topic Watermark Recovery](#37-historical-replay--topic-watermark-recovery)
+   * [Automated Maintenance & Swagger UI Controller](#38-automated-maintenance--swagger-ui-controller)
+   * [Complete Configuration Reference](#39-complete-configuration-reference-appsettingsjson)
+4. [Core Foundation & Functional Flow (`CSharpExtensions.Core`)](#4-core-foundation--functional-flow-csharpextensionscore)
+   * [Railway Oriented Programming (ROP)](#41-railway-oriented-programming-rop)
+   * [Typed Error Hierarchy](#42-typed-error-hierarchy)
+   * [ROP Retries & Jitter (`TryResultAgainAsync`)](#43-rop-retries--jitter-tryresultagainasync)
+   * [ROP Pipeline Logging (`ResultLoggingExtensions`)](#44-rop-pipeline-logging-resultloggingextensions)
+   * [Safe JSON Engine & Merge Utilities](#45-safe-json-engine--merge-utilities)
+   * [AES-GCM v2 Authenticated Encryption (AEAD)](#46-aes-gcm-v2-authenticated-encryption-aead)
+   * [Roslyn Source Generator PII Masking (`[SensitiveData]`)](#47-roslyn-source-generator-pii-masking-sensitivedata)
+   * [Cryptographic Secrets, Hashes & Bias-Free OTPs](#48-cryptographic-secrets-hashes--bias-free-otps)
+   * [ID Obfuscation with Sqids](#49-id-obfuscation-with-sqids-iidentifierservice)
+   * [Phone Validation & E.164 Normalization](#410-phone-validation--e164-normalization)
+   * [RFC 9562 Monotonic UUIDv7 & Keyset Pagination](#411-rfc-9562-monotonic-uuidv7--keyset-pagination)
+   * [Database Sharding Options & SQL Health Checks](#412-database-sharding-options--sql-health-checks)
+5. [ASP.NET Core & Security (`CSharpExtensions.AspNetCore`)](#5-aspnet-core--security-csharpextensionsaspnetcore)
+   * [Unified Actor Authorization Engine (`IActorContext`)](#51-unified-actor-authorization-engine-iactorcontext)
+   * [Hybrid Authentication (JWT + S2S Header Auth)](#52-hybrid-authentication-jwt--s2s-header-auth)
+   * [ROP to RFC 7807 ProblemDetails Mapping](#53-rop-to-rfc-7807-problemdetails-mapping)
+   * [Base Health Controller & Build Metadata](#54-base-health-controller--build-metadata)
+   * [Hardened CORS & Correlation Tracking](#55-hardened-cors--correlation-tracking)
+   * [OpenAPI / Swagger Integration](#56-openapi--swagger-integration)
+6. [Benchmarks & Performance](#6-benchmarks--performance-comparison)
+7. [Developer CLI (`CSharpExtensions.Kafka.Cli`)](#7-developer-cli-csharpextensionskafkacli)
+8. [Roadmap](#8-roadmap)
+9. [License & Author](#9-license--author)
 
 ---
 
@@ -100,42 +99,61 @@ flowchart TD
 
 ---
 
-## 2. Modular Ecosystem
+## 2. Modular Ecosystem & Packages
 
-The ecosystem is structured into three cohesive packages, a Roslyn source generator, and a developer CLI tool:
+The framework is organized into 3 high-performance packages, a compile-time source generator, and a developer CLI tool. Install only the modules required for your architecture:
 
-| Package | Description | Target | NuGet Package |
-| :--- | :--- | :--- | :--- |
-| **[`CSharpExtensions.Core`](src/CSharpExtensions.Core)** | Railway Oriented Programming (`Result<T>`), AEAD Crypto, UUIDv7, PII Security, Phone Normalization, Sharding. | `net10.0` | [![NuGet](https://img.shields.io/nuget/v/CSharpExtensions.Core.svg?logo=nuget)](https://www.nuget.org/packages/CSharpExtensions.Core) |
-| **[`CSharpExtensions.AspNetCore`](src/CSharpExtensions.AspNetCore)** | Hybrid Auth (JWT + S2S), Actor Context, RFC 7807 `ProblemDetails`, OpenAPI/Swagger filters, CORS. | `net10.0` | [![NuGet](https://img.shields.io/nuget/v/CSharpExtensions.AspNetCore.svg?logo=nuget)](https://www.nuget.org/packages/CSharpExtensions.AspNetCore) |
-| **[`CSharpExtensions.Kafka`](src/CSharpExtensions.Kafka)** | Strongly typed Message Bus, Declarative Handlers, Outbox, S3 Claim Check, Redis Deduplication, Circuit Breaker, Upcasting, Maintenance Endpoints. | `net10.0` | [![NuGet](https://img.shields.io/nuget/v/CSharpExtensions.Kafka.svg?logo=nuget)](https://www.nuget.org/packages/CSharpExtensions.Kafka) |
-| **[`CSharpExtensions.Security.Generators`](src/CSharpExtensions.Security.Generators)** | Compile-time Roslyn Source Generator for zero-allocation `[SensitiveData]` masking. | `netstandard2.0` | *Included in Core* |
-| **[`CSharpExtensions.Kafka.Cli`](src/CSharpExtensions.Kafka.Cli)** | Command-line tool for automated schema upcaster generation from C# contract records. | `net10.0` | Global Tool |
+### 🔹 [`CSharpExtensions.Core`](src/CSharpExtensions.Core)
+[![NuGet Version](https://img.shields.io/nuget/v/CSharpExtensions.Core.svg?style=for-the-badge&logo=nuget&color=004880)](https://www.nuget.org/packages/CSharpExtensions.Core)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/CSharpExtensions.Core.svg?style=for-the-badge&logo=nuget&color=239120)](https://www.nuget.org/packages/CSharpExtensions.Core)
+[![Target](https://img.shields.io/badge/target-net10.0-512BD4?style=for-the-badge&logo=dotnet)](https://dotnet.microsoft.com/)
+
+> **The Architectural Foundation**: Struct-backed Railway Oriented Programming (`Result<T>`), AEAD `AES-GCM v2` authenticated encryption with key rotation, RFC 9562 Monotonic UUIDv7, PII security, E.164 phone normalization, Keyset cursor pagination, and multi-tenant database sharding.
+
+```bash
+dotnet add package CSharpExtensions.Core
+```
 
 ---
 
-## 3. Quick Installation
+### 🔹 [`CSharpExtensions.AspNetCore`](src/CSharpExtensions.AspNetCore)
+[![NuGet Version](https://img.shields.io/nuget/v/CSharpExtensions.AspNetCore.svg?style=for-the-badge&logo=nuget&color=004880)](https://www.nuget.org/packages/CSharpExtensions.AspNetCore)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/CSharpExtensions.AspNetCore.svg?style=for-the-badge&logo=nuget&color=239120)](https://www.nuget.org/packages/CSharpExtensions.AspNetCore)
+[![Target](https://img.shields.io/badge/target-net10.0-512BD4?style=for-the-badge&logo=dotnet)](https://dotnet.microsoft.com/)
 
-Install via .NET CLI:
+> **Web API & Security Standards**: Unified Actor Authorization (`IActorContext`: `User` vs `Employee` vs `Service`), Hybrid Authentication (JWT Bearer + S2S Header token), automatic ROP-to-RFC 7807 `ProblemDetails` translation, hardened CORS policies, and OpenAPI/Swagger filters.
 
 ```bash
-# 1. Install Core foundation & ROP
-dotnet add package CSharpExtensions.Core
-
-# 2. (Optional) Install ASP.NET Core integration & Actor Context
 dotnet add package CSharpExtensions.AspNetCore
+```
 
-# 3. (Optional) Install Kafka transactional messaging & Outbox
+---
+
+### 🔹 [`CSharpExtensions.Kafka`](src/CSharpExtensions.Kafka)
+[![NuGet Version](https://img.shields.io/nuget/v/CSharpExtensions.Kafka.svg?style=for-the-badge&logo=nuget&color=004880)](https://www.nuget.org/packages/CSharpExtensions.Kafka)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/CSharpExtensions.Kafka.svg?style=for-the-badge&logo=nuget&color=239120)](https://www.nuget.org/packages/CSharpExtensions.Kafka)
+[![Target](https://img.shields.io/badge/target-net10.0-512BD4?style=for-the-badge&logo=dotnet)](https://dotnet.microsoft.com/)
+
+> **Enterprise Event Streaming**: Strongly-typed Message Bus (`IMessageBus`), Declarative Scoped Handlers (`IMessageHandler<T>`), Transactional Outbox (Dual-Write Prevention), S3 Claim Check (>1MB), Redis Deduplication, Circuit Breaker, Staged Jobs Engine, and Runtime Schema Evolution.
+
+```bash
 dotnet add package CSharpExtensions.Kafka
 ```
 
 ---
 
-## 4. Kafka Integration (`CSharpExtensions.Kafka`)
+### 🛠️ Tooling & Compilers
+
+*   ⚡ **[`CSharpExtensions.Security.Generators`](src/CSharpExtensions.Security.Generators)** *(Included automatically in Core)*: Incremental Roslyn Source Generator generating zero-allocation compile-time `.Mask()` methods for records marked with `[SensitiveData]`.
+*   💻 **[`CSharpExtensions.Kafka.Cli`](src/CSharpExtensions.Kafka.Cli)** *(Global Tool)*: CLI tool for generating backward-compatible schema upcasters (`V1 -> V2 -> V3`) from C# contract records.
+
+---
+
+## 3. Kafka Integration (`CSharpExtensions.Kafka`)
 
 `CSharpExtensions.Kafka` is an autonomous, enterprise-grade messaging engine wrapping `Confluent.Kafka` under a clean, functional abstraction (`IMessageBus`) with a declarative fluent builder.
 
-### 4.1 Declarative Handler Subscriptions (`IMessageHandler<T>`)
+### 3.1 Declarative Handler Subscriptions (`IMessageHandler<T>`)
 
 Write clean, scoped domain handlers with functional `Result` return types:
 
@@ -197,7 +215,7 @@ services.AddKafka(builder.Configuration, kafka =>
 
 ---
 
-### 4.2 Streaming Pull Consumer (`IKafkaConsumer<T>`)
+### 3.2 Streaming Pull Consumer (`IKafkaConsumer<T>`)
 
 For high-throughput streaming workloads, batch processors, or custom background workers where you need direct control over offsets:
 
@@ -244,7 +262,7 @@ public class OrderAnalyticsWorker(
 
 ---
 
-### 4.3 Transactional Outbox Pattern (Dual-Write Prevention)
+### 3.3 Transactional Outbox Pattern (Dual-Write Prevention)
 
 Guarantee at-least-once delivery by writing your domain entities and Kafka events into the **same atomic database transaction**. The background `KafkaOutboxProcessor` polls and publishes them durably.
 
@@ -297,7 +315,7 @@ public class OrderService(
 
 ---
 
-### 4.4 Resilient 7-Step Consumer Pipeline
+### 3.4 Resilient 7-Step Consumer Pipeline
 
 Every incoming Kafka record traverses a hardened consumer pipeline before reaching your handler:
 
@@ -322,7 +340,7 @@ flowchart LR
 
 ---
 
-### 4.5 Topic & Consumer Group Naming Conventions
+### 3.5 Topic & Consumer Group Naming Conventions
 
 The framework enforces strict naming conventions at application startup:
 
@@ -333,7 +351,7 @@ The framework enforces strict naming conventions at application startup:
 
 ---
 
-### 4.6 Stateful Aggregators & Staged Jobs Engine
+### 3.6 Stateful Aggregators & Staged Jobs Engine
 
 For complex event-driven workflows requiring multi-event correlation (Sagas / Choreographies):
 
@@ -354,7 +372,7 @@ services.AddKafka(configuration, kafka =>
 
 ---
 
-### 4.7 Historical Replay & Topic Watermark Recovery
+### 3.7 Historical Replay & Topic Watermark Recovery
 
 Replay events from a specific point in time without affecting active production consumer offsets:
 
@@ -370,7 +388,7 @@ kafka.Subscribe<EventsOrdersOrderPlacedV1>(subscription =>
 
 ---
 
-### 4.8 Automated Maintenance & Swagger UI Controller
+### 3.8 Automated Maintenance & Swagger UI Controller
 
 Enable periodic background pruning and an embedded ASP.NET Core management controller:
 
@@ -387,7 +405,7 @@ services.AddKafka(configuration, kafka =>
 
 ---
 
-### 4.9 Complete Configuration Reference (`appsettings.json`)
+### 3.9 Complete Configuration Reference (`appsettings.json`)
 
 ```json
 {
@@ -434,9 +452,9 @@ services.AddKafka(configuration, kafka =>
 
 ---
 
-## 5. Core Foundation & Functional Flow (`CSharpExtensions.Core`)
+## 4. Core Foundation & Functional Flow (`CSharpExtensions.Core`)
 
-### 5.1 Railway Oriented Programming (ROP)
+### 4.1 Railway Oriented Programming (ROP)
 
 Eliminate `try/catch` control-flow antipatterns. Model success and business failures explicitly with `Result<T>` and strongly typed `Error` records.
 
@@ -468,7 +486,7 @@ Result<OrderSummary> summary =
 
 ---
 
-### 5.2 Typed Error Hierarchy
+### 4.2 Typed Error Hierarchy
 
 ```csharp
 Error.NotFound("User.NotFound", "User with specified ID does not exist");
@@ -481,7 +499,7 @@ Error.Unexpected("Database.Timeout", "Upstream persistence timed out");
 
 ---
 
-### 5.3 ROP Retries & Jitter (`TryResultAgainAsync`)
+### 4.3 ROP Retries & Jitter (`TryResultAgainAsync`)
 
 Retry functional pipelines without third-party dependencies (like Polly) for standard operations:
 
@@ -504,7 +522,7 @@ var result = await chargeCard.TryResultAgainAsync(
 
 ---
 
-### 5.4 ROP Pipeline Logging (`ResultLoggingExtensions`)
+### 4.4 ROP Pipeline Logging (`ResultLoggingExtensions`)
 
 Log success and failure events inline without breaking pipeline composition:
 
@@ -518,7 +536,7 @@ return await Result.Success(request)
 
 ---
 
-### 5.5 Safe JSON Engine & Merge Utilities
+### 4.5 Safe JSON Engine & Merge Utilities
 
 ```csharp
 using CSharpExtensions.Core.Json;
@@ -538,7 +556,7 @@ DataTable tvpTable = jsonElementArray.ToDataTable();
 
 ---
 
-### 5.6 AES-GCM v2 Authenticated Encryption (AEAD)
+### 4.6 AES-GCM v2 Authenticated Encryption (AEAD)
 
 Authenticated encryption with Key Ring rotation support, purpose binding, and tamper-proof verification:
 
@@ -556,7 +574,7 @@ if (encryptionService.TryDecrypt(envelope, out string plaintext))
 
 ---
 
-### 5.7 Roslyn Source Generator PII Masking (`[SensitiveData]`)
+### 4.7 Roslyn Source Generator PII Masking (`[SensitiveData]`)
 
 Compile-time generation of zero-allocation string masking with 0 B memory overhead:
 
@@ -581,7 +599,7 @@ UserProfile masked = profile.Mask();
 
 ---
 
-### 5.8 Cryptographic Secrets, Hashes & Bias-Free OTPs
+### 4.8 Cryptographic Secrets, Hashes & Bias-Free OTPs
 
 ```csharp
 using CSharpExtensions.Core.Security.Helpers;
@@ -598,7 +616,7 @@ bool isValid = HashGenerator.VerifyStrongHmac(signingKey, message, signatureHex)
 
 ---
 
-### 5.9 ID Obfuscation with Sqids (`IIdentifierService`)
+### 4.9 ID Obfuscation with Sqids (`IIdentifierService`)
 
 Transform auto-incrementing database integers into short, unique, YouTube-style string IDs for public URLs:
 
@@ -610,7 +628,7 @@ long? originalId = identifierService.Decode("8gDdxK1a"); // 12345678
 
 ---
 
-### 5.10 Phone Validation & E.164 Normalization
+### 4.10 Phone Validation & E.164 Normalization
 
 ```csharp
 using CSharpExtensions.Core.Phone;
@@ -622,7 +640,7 @@ string masked = "+37498123456".MaskPhone();     // "+374*****56"
 
 ---
 
-### 5.11 RFC 9562 Monotonic UUIDv7 & Keyset Pagination
+### 4.11 RFC 9562 Monotonic UUIDv7 & Keyset Pagination
 
 ```csharp
 using CSharpExtensions.Core.Helpers;
@@ -642,7 +660,7 @@ CursorPagedList<Order, Guid> page = await query.ToCursorPagedListAsync(
 
 ---
 
-### 5.12 Database Sharding Options & SQL Health Checks
+### 4.12 Database Sharding Options & SQL Health Checks
 
 ```csharp
 // Fast SELECT 1 Health Check
@@ -655,9 +673,9 @@ builder.Services.AddHealthChecks()
 
 ---
 
-## 6. ASP.NET Core & Security (`CSharpExtensions.AspNetCore`)
+## 5. ASP.NET Core & Security (`CSharpExtensions.AspNetCore`)
 
-### 6.1 Unified Actor Authorization Engine (`IActorContext`)
+### 5.1 Unified Actor Authorization Engine (`IActorContext`)
 
 Differentiate clients (`User`), internal staff (`Employee`), and automated backend services (`Service`):
 
@@ -692,7 +710,7 @@ public class OrdersController : ControllerBase
 
 ---
 
-### 6.2 Hybrid Authentication (JWT + S2S Header Auth)
+### 5.2 Hybrid Authentication (JWT + S2S Header Auth)
 
 ```json
 {
@@ -714,7 +732,7 @@ public class OrdersController : ControllerBase
 
 ---
 
-### 6.3 ROP to RFC 7807 ProblemDetails Mapping
+### 5.3 ROP to RFC 7807 ProblemDetails Mapping
 
 Automatically translates `Result<T>` error statuses into standard RFC 7807 `ProblemDetails` with correlation ID, trace ID, and timestamp:
 
@@ -726,7 +744,7 @@ public async Task<ActionResult<OrderDto>> GetOrder(Guid id)
 
 ---
 
-### 6.4 Base Health Controller & Build Metadata
+### 5.4 Base Health Controller & Build Metadata
 
 Unified health endpoints (`/api/v1/health`, `/live`, `/ready`, `/startup`) with opt-in build metadata:
 
@@ -738,7 +756,7 @@ public class HealthController(HealthCheckService service) : BaseHealthController
 
 ---
 
-### 6.5 Hardened CORS & Correlation Tracking
+### 5.5 Hardened CORS & Correlation Tracking
 
 ```csharp
 app.UseCorrelationId(); // Propagates x-correlation-id header
@@ -747,7 +765,7 @@ app.UseCors("DefaultPolicy");
 
 ---
 
-### 6.6 OpenAPI / Swagger Integration
+### 5.6 OpenAPI / Swagger Integration
 
 Auto-configures XML documentation, JWT Bearer and S2S security schemes, and PII masking filters in Swagger UI:
 
@@ -757,7 +775,7 @@ builder.Services.AddSwaggerDocumentation(builder.Configuration, typeof(Program).
 
 ---
 
-## 7. Benchmarks & Performance Comparison
+## 6. Benchmarks & Performance Comparison
 
 We executed micro-benchmarks comparing `CSharpExtensions` zero-allocation architecture against typical standard .NET enterprise patterns using **BenchmarkDotNet** on .NET 10 (x64):
 
@@ -802,7 +820,7 @@ We executed micro-benchmarks comparing `CSharpExtensions` zero-allocation archit
 
 ---
 
-## 8. Developer CLI (`CSharpExtensions.Kafka.Cli`)
+## 7. Developer CLI (`CSharpExtensions.Kafka.Cli`)
 
 Generate backward-compatible upcasters automatically when modifying Kafka message contracts:
 
@@ -816,7 +834,7 @@ dotnet run --project src/CSharpExtensions.Kafka.Cli -- \
 
 ---
 
-## 9. Roadmap
+## 8. Roadmap
 
 - [x] **.NET 10 & C# 15 Alignment**: Complete nullable reference types, sealed records, implicit usings.
 - [x] **Railway Oriented Programming**: Struct-backed `Result<T>`, LINQ query comprehension, RFC 7807 integration.
@@ -829,7 +847,7 @@ dotnet run --project src/CSharpExtensions.Kafka.Cli -- \
 
 ---
 
-## 10. License & Author
+## 9. License & Author
 
 Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more information.
 
