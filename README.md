@@ -14,7 +14,10 @@
 [![Language](https://img.shields.io/badge/Language-C%23%2015.0-239120?logo=csharp)](https://learn.microsoft.com/dotnet/csharp/)
 [![CI](https://github.com/backend-crafter/CSharpExtensions/actions/workflows/ci.yml/badge.svg)](https://github.com/backend-crafter/CSharpExtensions/actions/workflows/ci.yml)
 [![Publish to NuGet](https://github.com/backend-crafter/CSharpExtensions/actions/workflows/publish.yml/badge.svg)](https://github.com/backend-crafter/CSharpExtensions/actions/workflows/publish.yml)
-[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=flat&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/backendcrafter)
+
+<br/>
+
+<a href="https://buymeacoffee.com/backendcrafter" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="48" width="205"></a>
 
 </div>
 
