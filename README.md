@@ -14,6 +14,7 @@
 [![Language](https://img.shields.io/badge/Language-C%23%2015.0-239120?logo=csharp)](https://learn.microsoft.com/dotnet/csharp/)
 [![CI](https://github.com/backend-crafter/CSharpExtensions/actions/workflows/ci.yml/badge.svg)](https://github.com/backend-crafter/CSharpExtensions/actions/workflows/ci.yml)
 [![Publish to NuGet](https://github.com/backend-crafter/CSharpExtensions/actions/workflows/publish.yml/badge.svg)](https://github.com/backend-crafter/CSharpExtensions/actions/workflows/publish.yml)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=flat&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/backendcrafter)
 
 </div>
 
@@ -55,7 +56,7 @@
 6. [Benchmarks & Performance](#6-benchmarks--performance-comparison)
 7. [Developer CLI (`CSharpExtensions.Kafka.Cli`)](#7-developer-cli-csharpextensionskafkacli)
 8. [Roadmap](#8-roadmap)
-9. [License & Author](#9-license--author)
+9. [Support, License & Author](#9-support-license--author)
 
 ---
 
@@ -850,10 +851,23 @@ dotnet run --project src/CSharpExtensions.Kafka.Cli -- \
 
 ---
 
-## 9. License & Author
+## 9. Support, License & Author
 
+### ☕ Support the Project
+If you find `CSharpExtensions` valuable for your microservices, high-load architecture, or enterprise applications, consider buying me a coffee to support maintenance and future development:
+
+<div align="center">
+
+[![Buy Me A Coffee](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=☕&slug=backendcrafter&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff)](https://buymeacoffee.com/backendcrafter)
+
+</div>
+
+---
+
+### License & Author
 Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more information.
 
 **Sergey Sorokin** — Software Architect & Principal .NET Engineer  
 * LinkedIn: [Serge Sorokin](https://www.linkedin.com/in/serge-sorokin-architect)  
+* Buy Me a Coffee: [backendcrafter](https://buymeacoffee.com/backendcrafter)  
 * GitHub: [@backend-crafter](https://github.com/backend-crafter)
