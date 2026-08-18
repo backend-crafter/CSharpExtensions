@@ -22,11 +22,11 @@ public sealed class PiiMaskingGenerator : IIncrementalGenerator
         "CSharpExtensions.Security.Pii.NonSensitivePropertyAttribute";
 
     private const string CoreSensitiveDataAttributeName =
-        "CSharpExtensions.Core.Security.Pii.SensitiveDataAttribute";
+        "CSharpExtensions.Foundation.Security.Pii.SensitiveDataAttribute";
     private const string CoreSensitivePropertyAttributeName =
-        "CSharpExtensions.Core.Security.Pii.SensitivePropertyAttribute";
+        "CSharpExtensions.Foundation.Security.Pii.SensitivePropertyAttribute";
     private const string CoreNonSensitivePropertyAttributeName =
-        "CSharpExtensions.Core.Security.Pii.NonSensitivePropertyAttribute";
+        "CSharpExtensions.Foundation.Security.Pii.NonSensitivePropertyAttribute";
 
     private static readonly DiagnosticDescriptor PartialTypeRequired = new(
         "SP0001",
@@ -236,10 +236,10 @@ public sealed class PiiMaskingGenerator : IIncrementalGenerator
             }
             else if (property.MaskType is not null)
             {
-                builder.Append("        builder.Append(global::CSharpExtensions.Core.Security.Pii.SensitiveDataMasker.Mask(")
+                builder.Append("        builder.Append(global::CSharpExtensions.Foundation.Security.Pii.SensitiveDataMasker.Mask(")
                     .Append("this.")
                     .Append(property.Identifier)
-                    .Append(", global::CSharpExtensions.Core.Security.Pii.SensitiveType.")
+                    .Append(", global::CSharpExtensions.Foundation.Security.Pii.SensitiveType.")
                     .Append(property.MaskType)
                     .AppendLine("));");
             }

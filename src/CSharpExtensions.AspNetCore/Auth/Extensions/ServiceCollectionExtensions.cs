@@ -1,7 +1,7 @@
 using CSharpExtensions.AspNetCore.Auth.Constants;
 using CSharpExtensions.AspNetCore.Auth.Handlers;
 using CSharpExtensions.AspNetCore.Auth.Options;
-using CSharpExtensions.Core.Helpers.Constants;
+using CSharpExtensions.Foundation.Helpers.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;

@@ -1,5 +1,5 @@
-using CSharpExtensions.Core.Railway;
-using CSharpExtensions.Core.Railway.Extensions;
+using CSharpExtensions.Foundation.Railway;
+using CSharpExtensions.Foundation.Railway.Extensions;
 using Xunit;
 
 #pragma warning disable CS0618

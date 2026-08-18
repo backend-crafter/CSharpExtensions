@@ -1,5 +1,5 @@
 using System.Text.Json;
-using CSharpExtensions.Core.Json;
+using CSharpExtensions.Foundation.Json;
 using Xunit;
 
 namespace CSharpExtensions.Tests;

@@ -3,7 +3,7 @@ using CSharpExtensions.AspNetCore.AspNet.Configurations;
 using CSharpExtensions.AspNetCore.AspNet.Middleware;
 using CSharpExtensions.AspNetCore.AspNet.Profiles;
 using CSharpExtensions.AspNetCore.AspNet.Transformers;
-using CSharpExtensions.Core.Railway;
+using CSharpExtensions.Foundation.Railway;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

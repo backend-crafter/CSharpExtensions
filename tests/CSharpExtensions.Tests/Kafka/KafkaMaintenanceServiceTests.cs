@@ -1,5 +1,5 @@
-using CSharpExtensions.Core.Railway;
-using CSharpExtensions.Core.Security.Interfaces;
+using CSharpExtensions.Foundation.Railway;
+using CSharpExtensions.Foundation.Security.Interfaces;
 
 namespace CSharpExtensions.Tests.Kafka;
 

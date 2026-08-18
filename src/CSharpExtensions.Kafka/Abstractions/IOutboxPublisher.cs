@@ -1,5 +1,5 @@
 using System.Data;
-using CSharpExtensions.Core.Railway;
+using CSharpExtensions.Foundation.Railway;
 
 namespace CSharpExtensions.Kafka.Abstractions;
 

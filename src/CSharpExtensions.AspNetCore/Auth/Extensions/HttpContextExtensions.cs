@@ -1,5 +1,5 @@
 using CSharpExtensions.AspNetCore.Auth.Models;
-using CSharpExtensions.Core.Exceptions.Exceptions;
+using CSharpExtensions.Foundation.Exceptions.Exceptions;
 using Microsoft.AspNetCore.Http;
 
 namespace CSharpExtensions.AspNetCore.Auth.Extensions;

@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using CSharpExtensions.AspNetCore.AspNet.Configurations;
 using CSharpExtensions.AspNetCore.AspNet.Contexts;
-using CSharpExtensions.Core.Exceptions.Exceptions;
-using CSharpExtensions.Core.Helpers.Constants;
-using CSharpExtensions.Core.Railway;
+using CSharpExtensions.Foundation.Exceptions.Exceptions;
+using CSharpExtensions.Foundation.Helpers.Constants;
+using CSharpExtensions.Foundation.Railway;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;

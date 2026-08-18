@@ -4,9 +4,9 @@ using System.Text;
 using System.Text.Json;
 using Amazon.S3;
 using Amazon.S3.Model;
-using CSharpExtensions.Core.Helpers;
-using CSharpExtensions.Core.Json;
-using CSharpExtensions.Core.Railway;
+using CSharpExtensions.Foundation.Helpers;
+using CSharpExtensions.Foundation.Json;
+using CSharpExtensions.Foundation.Railway;
 using CSharpExtensions.Kafka.Abstractions;
 using Microsoft.Extensions.Logging;
 

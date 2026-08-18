@@ -1,5 +1,5 @@
 using System.Data;
-using CSharpExtensions.Core.Helpers.Constants;
+using CSharpExtensions.Foundation.Helpers.Constants;
 using CSharpExtensions.Kafka.Abstractions;
 using Dapper;
 using Microsoft.Data.SqlClient;

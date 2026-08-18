@@ -1,5 +1,5 @@
-using CSharpExtensions.Core.Security.Options;
-using CSharpExtensions.Core.Security.Services;
+using CSharpExtensions.Foundation.Security.Options;
+using CSharpExtensions.Foundation.Security.Services;
 using Microsoft.Extensions.Options;
 using Xunit;
 

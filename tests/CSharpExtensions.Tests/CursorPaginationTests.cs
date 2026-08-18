@@ -1,5 +1,5 @@
-using CSharpExtensions.Core.Helpers.Extensions;
-using CSharpExtensions.Core.Helpers.Models;
+using CSharpExtensions.Foundation.Helpers.Extensions;
+using CSharpExtensions.Foundation.Helpers.Models;
 
 namespace CSharpExtensions.Tests;
 

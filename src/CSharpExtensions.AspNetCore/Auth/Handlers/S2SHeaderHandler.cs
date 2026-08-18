@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Http.Headers;
 using CSharpExtensions.AspNetCore.Auth.Extensions;
 using CSharpExtensions.AspNetCore.Auth.Options;
-using CSharpExtensions.Core.Helpers.Constants;
+using CSharpExtensions.Foundation.Helpers.Constants;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 

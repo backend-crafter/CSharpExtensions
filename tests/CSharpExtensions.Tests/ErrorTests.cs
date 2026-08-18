@@ -1,5 +1,5 @@
-using CSharpExtensions.Core.Json.Extensions;
-using CSharpExtensions.Core.Railway;
+using CSharpExtensions.Foundation.Json.Extensions;
+using CSharpExtensions.Foundation.Railway;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;

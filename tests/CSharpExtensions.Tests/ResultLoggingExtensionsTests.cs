@@ -1,5 +1,5 @@
-using CSharpExtensions.Core.Railway;
-using CSharpExtensions.Core.Railway.Extensions;
+using CSharpExtensions.Foundation.Railway;
+using CSharpExtensions.Foundation.Railway.Extensions;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
@@ -106,6 +106,8 @@ public class ResultLoggingExtensionsTests
     public void Error_LogBeforeReturn_ShouldLogUsingGlobalLoggerAndReturnThis()
     {
         // Arrange
+        RailwayDiagnostics.Configure(_loggerFactoryMock.Object);
+        _loggerMock.Invocations.Clear();
         var error = new Error("Fluent error log message");
 
         // Act

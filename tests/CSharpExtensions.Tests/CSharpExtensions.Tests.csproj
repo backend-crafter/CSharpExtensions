@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CSharpExtensions.Core\CSharpExtensions.Core.csproj" />
+    <ProjectReference Include="..\..\src\CSharpExtensions.Foundation\CSharpExtensions.Foundation.csproj" />
     <ProjectReference Include="..\..\src\CSharpExtensions.AspNetCore\CSharpExtensions.AspNetCore.csproj" />
     <ProjectReference Include="..\..\src\CSharpExtensions.Kafka\CSharpExtensions.Kafka.csproj" />
     <ProjectReference Include="..\..\src\CSharpExtensions.Kafka.Cli\CSharpExtensions.Kafka.Cli.csproj" />

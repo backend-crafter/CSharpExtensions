@@ -1,4 +1,4 @@
-using CSharpExtensions.Core.Railway;
+using CSharpExtensions.Foundation.Railway;
 
 namespace CSharpExtensions.Tests.Kafka;
 

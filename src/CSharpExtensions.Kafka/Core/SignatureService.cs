@@ -2,7 +2,7 @@ using System.Buffers;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
-using CSharpExtensions.Core.Security.Interfaces;
+using CSharpExtensions.Foundation.Security.Interfaces;
 using CSharpExtensions.Kafka.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;

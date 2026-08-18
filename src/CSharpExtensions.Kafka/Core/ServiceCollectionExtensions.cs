@@ -1,4 +1,4 @@
-using CSharpExtensions.Core.Security.Interfaces;
+using CSharpExtensions.Foundation.Security.Interfaces;
 using CSharpExtensions.Kafka.Abstractions;
 using CSharpExtensions.Kafka.Core.Pipeline;
 using Microsoft.AspNetCore.Builder;

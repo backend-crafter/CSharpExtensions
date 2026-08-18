@@ -1,4 +1,4 @@
-using CSharpExtensions.Core.Security.Interfaces;
+using CSharpExtensions.Foundation.Security.Interfaces;
 using CSharpExtensions.Kafka.Core;
 
 namespace CSharpExtensions.Tests.Kafka;

@@ -1,5 +1,5 @@
-using CSharpExtensions.Core.Helpers.Constants;
-using CSharpExtensions.Core.Security.Interfaces;
+using CSharpExtensions.Foundation.Helpers.Constants;
+using CSharpExtensions.Foundation.Security.Interfaces;
 
 namespace CSharpExtensions.Tests.Kafka;
 

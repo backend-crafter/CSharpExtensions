@@ -1,4 +1,4 @@
-using CSharpExtensions.Core.Security.Pii;
+using CSharpExtensions.Foundation.Security.Pii;
 using Xunit;
 
 namespace CSharpExtensions.Tests;

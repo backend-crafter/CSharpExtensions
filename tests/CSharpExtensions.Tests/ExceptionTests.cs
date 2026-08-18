@@ -1,5 +1,5 @@
-using CSharpExtensions.Core.Exceptions.Exceptions;
-using CSharpExtensions.Core.Helpers.Extensions;
+using CSharpExtensions.Foundation.Exceptions.Exceptions;
+using CSharpExtensions.Foundation.Helpers.Extensions;
 using Xunit;
 
 namespace CSharpExtensions.Tests;

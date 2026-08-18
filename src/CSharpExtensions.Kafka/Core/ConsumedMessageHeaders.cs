@@ -1,4 +1,4 @@
-using CSharpExtensions.Core.Helpers.Constants;
+using CSharpExtensions.Foundation.Helpers.Constants;
 
 namespace CSharpExtensions.Kafka.Core;
 

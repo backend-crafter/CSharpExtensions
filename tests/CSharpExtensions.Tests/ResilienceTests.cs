@@ -1,9 +1,9 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CSharpExtensions.Core.Helpers.Extensions;
-using CSharpExtensions.Core.Railway;
-using CSharpExtensions.Core.Railway.Extensions;
+using CSharpExtensions.Foundation.Helpers.Extensions;
+using CSharpExtensions.Foundation.Railway;
+using CSharpExtensions.Foundation.Railway.Extensions;
 using Xunit;
 
 namespace CSharpExtensions.Tests;

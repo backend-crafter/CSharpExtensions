@@ -1,5 +1,5 @@
-using CSharpExtensions.Core.Json;
-using CSharpExtensions.Core.Railway;
+using CSharpExtensions.Foundation.Json;
+using CSharpExtensions.Foundation.Railway;
 
 namespace CSharpExtensions.Kafka.Core.Pipeline;
 

@@ -1,8 +1,8 @@
 using CSharpExtensions.AspNetCore.AspNet.Configurations;
 using CSharpExtensions.AspNetCore.AspNet.Transformers;
-using CSharpExtensions.Core.Exceptions.Exceptions;
-using CSharpExtensions.Core.Helpers;
-using CSharpExtensions.Core.Railway;
+using CSharpExtensions.Foundation.Exceptions.Exceptions;
+using CSharpExtensions.Foundation.Helpers;
+using CSharpExtensions.Foundation.Railway;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

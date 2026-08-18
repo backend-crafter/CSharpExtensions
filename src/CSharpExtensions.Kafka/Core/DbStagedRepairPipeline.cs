@@ -1,5 +1,5 @@
-using CSharpExtensions.Core.Helpers.Constants;
-using CSharpExtensions.Core.Railway;
+using CSharpExtensions.Foundation.Helpers.Constants;
+using CSharpExtensions.Foundation.Railway;
 
 namespace CSharpExtensions.Kafka.Core;
 

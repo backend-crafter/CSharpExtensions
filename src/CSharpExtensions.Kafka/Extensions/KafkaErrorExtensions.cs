@@ -1,6 +1,6 @@
 using System;
 using Confluent.Kafka;
-using RailwayError = CSharpExtensions.Core.Railway.Error;
+using RailwayError = CSharpExtensions.Foundation.Railway.Error;
 
 namespace CSharpExtensions.Kafka.Extensions;
 

@@ -1,4 +1,4 @@
-using CSharpExtensions.Core.Railway;
+using CSharpExtensions.Foundation.Railway;
 using CSharpExtensions.Kafka.Abstractions;
 
 namespace CSharpExtensions.Kafka.Core.Pipeline;

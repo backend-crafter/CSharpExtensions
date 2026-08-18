@@ -1,6 +1,6 @@
 using System.Diagnostics;
-using CSharpExtensions.Core.Helpers;
-using CSharpExtensions.Core.Helpers.Constants;
+using CSharpExtensions.Foundation.Helpers;
+using CSharpExtensions.Foundation.Helpers.Constants;
 using Microsoft.AspNetCore.Http;
 
 namespace CSharpExtensions.AspNetCore.AspNet.Middleware;

@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using CSharpExtensions.AspNetCore.Auth.Models;
 using CSharpExtensions.AspNetCore.Auth.Options;
-using CSharpExtensions.Core.Helpers.Constants;
+using CSharpExtensions.Foundation.Helpers.Constants;
 using Microsoft.AspNetCore.Http;
 
 namespace CSharpExtensions.AspNetCore.Auth.Extensions;

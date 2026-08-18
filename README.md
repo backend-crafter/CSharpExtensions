@@ -7,8 +7,8 @@
 ### High-Performance .NET 10 Foundation & Resilient Event-Driven Architecture
 *Engineered for distributed high-load systems (3.5M+ RPM) with Railway Oriented Programming (ROP), zero-allocation PII security, actor context authorization, and transactional Kafka messaging.*
 
-[![NuGet Version](https://img.shields.io/nuget/v/CSharpExtensions.Core.svg?style=flat&logo=nuget)](https://www.nuget.org/packages/CSharpExtensions.Core)
-[![NuGet Downloads](https://img.shields.io/nuget/dt/CSharpExtensions.Core.svg?style=flat&logo=nuget)](https://www.nuget.org/packages/CSharpExtensions.Core)
+[![NuGet Version](https://img.shields.io/nuget/v/CSharpExtensions.Foundation.svg?style=flat&logo=nuget)](https://www.nuget.org/packages/CSharpExtensions.Foundation)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/CSharpExtensions.Foundation.svg?style=flat&logo=nuget)](https://www.nuget.org/packages/CSharpExtensions.Foundation)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Platform](https://img.shields.io/badge/platform-net10.0-blueviolet)]()
 [![Language](https://img.shields.io/badge/Language-C%23%2015.0-239120?logo=csharp)](https://learn.microsoft.com/dotnet/csharp/)
@@ -32,7 +32,7 @@
    * [Historical Replay & Topic Watermark Recovery](#37-historical-replay--topic-watermark-recovery)
    * [Automated Maintenance & Swagger UI Controller](#38-automated-maintenance--swagger-ui-controller)
    * [Complete Configuration Reference](#39-complete-configuration-reference-appsettingsjson)
-4. [Core Foundation & Functional Flow (`CSharpExtensions.Core`)](#4-core-foundation--functional-flow-csharpextensionscore)
+4. [Core Foundation & Functional Flow (`CSharpExtensions.Foundation`)](#4-core-foundation--functional-flow-csharpextensionscore)
    * [Railway Oriented Programming (ROP)](#41-railway-oriented-programming-rop)
    * [Typed Error Hierarchy](#42-typed-error-hierarchy)
    * [ROP Retries & Jitter (`TryResultAgainAsync`)](#43-rop-retries--jitter-tryresultagainasync)
@@ -103,15 +103,15 @@ flowchart TD
 
 The framework is organized into 3 high-performance packages, a compile-time source generator, and a developer CLI tool. Install only the modules required for your architecture:
 
-### 🔹 [`CSharpExtensions.Core`](src/CSharpExtensions.Core)
-[![NuGet Version](https://img.shields.io/nuget/v/CSharpExtensions.Core.svg?style=for-the-badge&logo=nuget&color=004880)](https://www.nuget.org/packages/CSharpExtensions.Core)
-[![NuGet Downloads](https://img.shields.io/nuget/dt/CSharpExtensions.Core.svg?style=for-the-badge&logo=nuget&color=239120)](https://www.nuget.org/packages/CSharpExtensions.Core)
+### 🔹 [`CSharpExtensions.Foundation`](src/CSharpExtensions.Foundation)
+[![NuGet Version](https://img.shields.io/nuget/v/CSharpExtensions.Foundation.svg?style=for-the-badge&logo=nuget&color=004880)](https://www.nuget.org/packages/CSharpExtensions.Foundation)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/CSharpExtensions.Foundation.svg?style=for-the-badge&logo=nuget&color=239120)](https://www.nuget.org/packages/CSharpExtensions.Foundation)
 [![Target](https://img.shields.io/badge/target-net10.0-512BD4?style=for-the-badge&logo=dotnet)](https://dotnet.microsoft.com/)
 
 > **The Architectural Foundation**: Struct-backed Railway Oriented Programming (`Result<T>`), AEAD `AES-GCM v2` authenticated encryption with key rotation, RFC 9562 Monotonic UUIDv7, PII security, E.164 phone normalization, Keyset cursor pagination, and multi-tenant database sharding.
 
 ```bash
-dotnet add package CSharpExtensions.Core
+dotnet add package CSharpExtensions.Foundation
 ```
 
 ---
@@ -158,7 +158,7 @@ dotnet add package CSharpExtensions.Kafka
 Write clean, scoped domain handlers with functional `Result` return types:
 
 ```csharp
-using CSharpExtensions.Core.Railway;
+using CSharpExtensions.Foundation.Railway;
 using CSharpExtensions.Kafka.Abstractions;
 
 // 1. Define Message Contract
@@ -452,7 +452,7 @@ services.AddKafka(configuration, kafka =>
 
 ---
 
-## 4. Core Foundation & Functional Flow (`CSharpExtensions.Core`)
+## 4. Core Foundation & Functional Flow (`CSharpExtensions.Foundation`)
 
 ### 4.1 Railway Oriented Programming (ROP)
 
@@ -460,7 +460,7 @@ Eliminate `try/catch` control-flow antipatterns. Model success and business fail
 
 #### Fluent Railway Composition
 ```csharp
-using CSharpExtensions.Core.Railway;
+using CSharpExtensions.Foundation.Railway;
 
 public async Task<Result<OrderDto>> ProcessOrderAsync(CreateOrderCommand command, CancellationToken ct)
 {
@@ -504,7 +504,7 @@ Error.Unexpected("Database.Timeout", "Upstream persistence timed out");
 Retry functional pipelines without third-party dependencies (like Polly) for standard operations:
 
 ```csharp
-using CSharpExtensions.Core.Railway;
+using CSharpExtensions.Foundation.Railway;
 
 Func<CancellationToken, Task<Result<PaymentDto>>> chargeCard = async ct =>
 {
@@ -539,7 +539,7 @@ return await Result.Success(request)
 ### 4.5 Safe JSON Engine & Merge Utilities
 
 ```csharp
-using CSharpExtensions.Core.Json;
+using CSharpExtensions.Foundation.Json;
 
 // Bounded deserialization pre-scan rejecting malicious payloads
 if (payloadBytes.TryDeserializeSafe<UserDto>(out var user, JsonOptions.ExternalStrict))
@@ -561,7 +561,7 @@ DataTable tvpTable = jsonElementArray.ToDataTable();
 Authenticated encryption with Key Ring rotation support, purpose binding, and tamper-proof verification:
 
 ```csharp
-using CSharpExtensions.Core.Security.Cryptography;
+using CSharpExtensions.Foundation.Security.Cryptography;
 
 // Envelope format: "v2:primary-2026:iv:tag:ciphertext"
 string envelope = encryptionService.Encrypt("secret-data");
@@ -579,7 +579,7 @@ if (encryptionService.TryDecrypt(envelope, out string plaintext))
 Compile-time generation of zero-allocation string masking with 0 B memory overhead:
 
 ```csharp
-using CSharpExtensions.Core.Security.Pii;
+using CSharpExtensions.Foundation.Security.Pii;
 
 [SensitiveData]
 public sealed partial record UserProfile(
@@ -602,7 +602,7 @@ UserProfile masked = profile.Mask();
 ### 4.8 Cryptographic Secrets, Hashes & Bias-Free OTPs
 
 ```csharp
-using CSharpExtensions.Core.Security.Helpers;
+using CSharpExtensions.Foundation.Security.Helpers;
 
 // 1. High-Entropy Secret with SHA-256 Hash
 var (plainSecret, secretHash) = SecretGenerator.GenerateWithHash(64);
@@ -631,7 +631,7 @@ long? originalId = identifierService.Decode("8gDdxK1a"); // 12345678
 ### 4.10 Phone Validation & E.164 Normalization
 
 ```csharp
-using CSharpExtensions.Core.Phone;
+using CSharpExtensions.Foundation.Phone;
 
 bool isValid = "+37498123456".IsValidPhone(); // true
 string? e164 = "098 12 34 56".NormalizePhone(); // "+37498123456"
@@ -643,8 +643,8 @@ string masked = "+37498123456".MaskPhone();     // "+374*****56"
 ### 4.11 RFC 9562 Monotonic UUIDv7 & Keyset Pagination
 
 ```csharp
-using CSharpExtensions.Core.Helpers;
-using CSharpExtensions.Core.Pagination;
+using CSharpExtensions.Foundation.Helpers;
+using CSharpExtensions.Foundation.Pagination;
 
 // Time-Ordered Monotonic UUIDv7
 Guid orderId = GuidHelper.CreateVersion7();

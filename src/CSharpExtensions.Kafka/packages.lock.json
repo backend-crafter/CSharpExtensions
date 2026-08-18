@@ -230,13 +230,13 @@
       "csharpextensions.aspnetcore": {
         "type": "Project",
         "dependencies": {
-          "CSharpExtensions.Core": "[1.0.0, )",
+          "CSharpExtensions.Foundation": "[1.0.0, )",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "[10.0.0, )",
           "Microsoft.IdentityModel.Tokens": "[8.16.0, )",
           "Swashbuckle.AspNetCore": "[6.5.0, )"
         }
       },
-      "csharpextensions.core": {
+      "csharpextensions.foundation": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Data.SqlClient": "[7.0.1, )",

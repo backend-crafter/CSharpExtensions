@@ -329,13 +329,13 @@
       "csharpextensions.aspnetcore": {
         "type": "Project",
         "dependencies": {
-          "CSharpExtensions.Core": "[1.0.0, )",
+          "CSharpExtensions.Foundation": "[1.0.0, )",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "[10.0.0, )",
           "Microsoft.IdentityModel.Tokens": "[8.16.0, )",
           "Swashbuckle.AspNetCore": "[6.5.0, )"
         }
       },
-      "csharpextensions.core": {
+      "csharpextensions.foundation": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Data.SqlClient": "[7.0.1, )",
@@ -354,7 +354,7 @@
         "dependencies": {
           "AWSSDK.S3": "[4.0.24, )",
           "CSharpExtensions.AspNetCore": "[1.0.0, )",
-          "CSharpExtensions.Core": "[1.0.0, )",
+          "CSharpExtensions.Foundation": "[1.0.0, )",
           "Confluent.Kafka": "[2.14.2, )",
           "Dapper": "[2.1.79, )",
           "Microsoft.Data.SqlClient": "[7.0.1, )",

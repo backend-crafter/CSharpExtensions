@@ -1,6 +1,6 @@
-using CSharpExtensions.Core.Json.Enums;
-using CSharpExtensions.Core.Json.Extensions;
-using CSharpExtensions.Core.Railway.Extensions;
+using CSharpExtensions.Foundation.Json.Enums;
+using CSharpExtensions.Foundation.Json.Extensions;
+using CSharpExtensions.Foundation.Railway.Extensions;
 using Xunit;
 
 namespace CSharpExtensions.Tests;

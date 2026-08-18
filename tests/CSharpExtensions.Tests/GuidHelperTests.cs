@@ -1,4 +1,4 @@
-using CSharpExtensions.Core.Helpers;
+using CSharpExtensions.Foundation.Helpers;
 using Xunit;
 
 namespace CSharpExtensions.Tests;

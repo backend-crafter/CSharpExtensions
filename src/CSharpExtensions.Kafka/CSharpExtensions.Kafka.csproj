@@ -39,12 +39,12 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(UsePublishedToolsDependencies)' == 'true'">
-    <PackageReference Include="CSharpExtensions.Core" VersionOverride="[$(ToolsPackageVersion)]" />
+    <PackageReference Include="CSharpExtensions.Foundation" VersionOverride="[$(ToolsPackageVersion)]" />
     <PackageReference Include="CSharpExtensions.AspNetCore" VersionOverride="[$(ToolsPackageVersion)]" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(UsePublishedToolsDependencies)' != 'true'">
-    <ProjectReference Include="..\CSharpExtensions.Core\CSharpExtensions.Core.csproj" />
+    <ProjectReference Include="..\CSharpExtensions.Foundation\CSharpExtensions.Foundation.csproj" />
     <ProjectReference Include="..\CSharpExtensions.AspNetCore\CSharpExtensions.AspNetCore.csproj" />
   </ItemGroup>
 

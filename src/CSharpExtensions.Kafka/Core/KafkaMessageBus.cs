@@ -1,7 +1,7 @@
-using CSharpExtensions.Core.Helpers.Constants;
-using CSharpExtensions.Core.Json;
-using CSharpExtensions.Core.Railway;
-using CSharpExtensions.Core.Railway.Extensions;
+using CSharpExtensions.Foundation.Helpers.Constants;
+using CSharpExtensions.Foundation.Json;
+using CSharpExtensions.Foundation.Railway;
+using CSharpExtensions.Foundation.Railway.Extensions;
 
 namespace CSharpExtensions.Kafka.Core;
 

@@ -14,7 +14,7 @@ using CSharpExtensions.AspNetCore.Auth.Extensions;
 using CSharpExtensions.AspNetCore.Auth.Handlers;
 using CSharpExtensions.AspNetCore.Auth.Models;
 using CSharpExtensions.AspNetCore.Auth.Options;
-using CSharpExtensions.Core.Helpers.Constants;
+using CSharpExtensions.Foundation.Helpers.Constants;
 using Xunit;
 
 namespace CSharpExtensions.Tests;

@@ -1,5 +1,5 @@
 using CSharpExtensions.AspNetCore.AspNet.Profiles;
-using CSharpExtensions.Core.Railway;
+using CSharpExtensions.Foundation.Railway;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CSharpExtensions.AspNetCore.AspNet.Transformers;

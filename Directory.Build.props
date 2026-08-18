@@ -43,7 +43,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Description Condition="'$(MSBuildProjectName)' == 'CSharpExtensions.Core'">Core foundation library for CSharpExtensions services: Railway Oriented Programming (ROP), JSON serialization, POCO exceptions, crypto/security, PII masking, phone normalization, and infrastructure helpers.</Description>
+    <Description Condition="'$(MSBuildProjectName)' == 'CSharpExtensions.Foundation'">Core foundation library for CSharpExtensions services: Railway Oriented Programming (ROP), JSON serialization, POCO exceptions, crypto/security, PII masking, phone normalization, and infrastructure helpers.</Description>
     <Description Condition="'$(MSBuildProjectName)' == 'CSharpExtensions.AspNetCore'">ASP.NET Core integration for CSharpExtensions services: Authentication (JWT &amp; S2S), Actor Context, CORS, Swagger documentation, ProblemDetails, and ROP action results.</Description>
     <Description Condition="'$(MSBuildProjectName)' == 'CSharpExtensions.Kafka'">Enterprise Kafka messaging, transactional outbox, deduplication, S3 claim check, and operational diagnostics for CSharpExtensions services.</Description>
     <Description Condition="'$(MSBuildProjectName)' == 'CSharpExtensions.Kafka.Cli'">Command-line tool for generating schema upcasters for CSharpExtensions Kafka events.</Description>

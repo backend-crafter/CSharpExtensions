@@ -156,7 +156,7 @@
         "resolved": "9.0.13",
         "contentHash": "t8S9IDpjJKsLpLkeBdW8cWtcPyYqrGu93Dej1RO6WwuL/lkFSqWlan3rMJfortqz1mRIh+sys2AFsSA6jWJ3Jg=="
       },
-      "csharpextensions.core": {
+      "csharpextensions.foundation": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Data.SqlClient": "[7.0.1, )",

@@ -1,4 +1,4 @@
-using CSharpExtensions.Core.Security.Pii;
+using CSharpExtensions.Foundation.Security.Pii;
 using CSharpExtensions.Security.Generators;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -12,7 +12,7 @@ public class PiiMaskingGeneratorDiagnosticTests
     public void Generator_ShouldRejectExplicitToStringThatCanLeakPii()
     {
         const string source = """
-            using CSharpExtensions.Core.Security.Pii;
+            using CSharpExtensions.Foundation.Security.Pii;
 
             [SensitiveData]
             public partial class LeakingModel
@@ -31,7 +31,7 @@ public class PiiMaskingGeneratorDiagnosticTests
     public void Generator_ShouldRejectStaticSensitiveType()
     {
         const string source = """
-            using CSharpExtensions.Core.Security.Pii;
+            using CSharpExtensions.Foundation.Security.Pii;
 
             [SensitiveData]
             public static partial class StaticSensitiveModel
@@ -49,7 +49,7 @@ public class PiiMaskingGeneratorDiagnosticTests
     public void Generator_ShouldRejectStaticParameterlessMaskCollision()
     {
         const string source = """
-            using CSharpExtensions.Core.Security.Pii;
+            using CSharpExtensions.Foundation.Security.Pii;
 
             [SensitiveData]
             public partial class StaticMaskModel
@@ -69,7 +69,7 @@ public class PiiMaskingGeneratorDiagnosticTests
     {
         const string source = """
             using System;
-            using CSharpExtensions.Core.Security.Pii;
+            using CSharpExtensions.Foundation.Security.Pii;
 
             [SensitiveData]
             public sealed partial record Profile(
