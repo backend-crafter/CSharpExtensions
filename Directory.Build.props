@@ -4,17 +4,17 @@
     <LangVersion>preview</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <CSharpExtensionsVersion>1.0.0</CSharpExtensionsVersion>
+    <CSharpExtensionsVersion>1.1.0</CSharpExtensionsVersion>
     <Version>$(CSharpExtensionsVersion)</Version>
     <PackageVersion>$(CSharpExtensionsVersion)</PackageVersion>
-    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <AssemblyVersion>1.1.0</AssemblyVersion>
     <FileVersion>$(CSharpExtensionsVersion).0</FileVersion>
     <Authors>Sergey Sorokin</Authors>
     <Company>Sergey Sorokin</Company>
     <Copyright>Copyright © 2026 Sergey Sorokin</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageTags>csharp;dotnet;extensions;railway-oriented-programming;kafka;aspnetcore;security;pii-masking</PackageTags>
-    <PackageReleaseNotes>1.0.0: consolidated ecosystem into 3 core packages (Core, AspNetCore, Kafka) with native ROP and security hardening.</PackageReleaseNotes>
+    <PackageTags>csharp;dotnet;extensions;railway-oriented-programming;kafka;aspnetcore;security;pii-masking;scalar;openapi</PackageTags>
+    <PackageReleaseNotes>1.1.0: Added native .NET 10 Microsoft.AspNetCore.OpenApi and Scalar API Reference (Scalar.AspNetCore); removed legacy Swashbuckle/Swagger dependencies.</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>

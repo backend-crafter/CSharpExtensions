@@ -1,12 +1,8 @@
-using System.Reflection;
-using CSharpExtensions.AspNetCore.AspNet.Filters;
 using CSharpExtensions.AspNetCore.AspNet.Handlers;
 using CSharpExtensions.AspNetCore.AspNet.Profiles;
 using CSharpExtensions.AspNetCore.AspNet.Transformers;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.OpenApi.Models;
 
 namespace CSharpExtensions.AspNetCore.AspNet.Extensions;
 
@@ -55,74 +51,23 @@ public static class ServiceCollectionExtensions
         
         return services;
     }
-    
+
     /// <summary>
-    /// Registers and configures Swagger generation with OpenAPI metadata and dynamic grouping.
+    /// Adds native ASP.NET Core OpenAPI services for modern API documentation tools such as Scalar.
     /// </summary>
-    /// <param name="services">The <see cref="IServiceCollection"/> to add services to.</param>
-    /// <param name="targetAssembly">The assembly where controllers are located (e.g., typeof(Program).Assembly).</param>
-    /// <returns>The same service collection so that multiple calls can be chained.</returns>
-    public static IServiceCollection AddSwaggerDocumentation(this IServiceCollection services, Assembly targetAssembly)
+    /// <param name="services">The service collection.</param>
+    /// <param name="documentName">The OpenAPI document name (defaults to "v1").</param>
+    /// <param name="configure">Optional delegate to configure OpenAPI options.</param>
+    public static IServiceCollection AddOpenApiDocumentation(
+        this IServiceCollection services,
+        string documentName = "v1",
+        Action<Microsoft.AspNetCore.OpenApi.OpenApiOptions>? configure = null)
     {
         ArgumentNullException.ThrowIfNull(services);
-        ArgumentNullException.ThrowIfNull(targetAssembly);
 
-        services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen(c =>
+        services.AddOpenApi(documentName, options =>
         {
-            var groups = targetAssembly.GetTypes()
-                .Where(t => typeof(ControllerBase).IsAssignableFrom(t))
-                .Select(t => t.GetCustomAttribute<ApiExplorerSettingsAttribute>()?.GroupName)
-                .Where(g => !string.IsNullOrEmpty(g))
-                .Distinct()
-                .OrderBy(g => g);
-
-            var metadata = targetAssembly.GetCustomAttributes<AssemblyMetadataAttribute>().ToList();
-            var commitHash = metadata.FirstOrDefault(a => a.Key == "GitCommitHash")?.Value;
-            var gitTag = metadata.FirstOrDefault(a => a.Key == "GitTag")?.Value;
-            var gitBranch = metadata.FirstOrDefault(a => a.Key == "GitBranch")?.Value;
-            var buildTimestamp = metadata.FirstOrDefault(a => a.Key == "BuildTimestamp")?.Value;
-            
-            var branchInfo = !string.IsNullOrEmpty(gitBranch) && gitBranch != "HEAD" && gitBranch != "N/A" 
-                ? $"**Branch:** `{gitBranch}`" 
-                : string.Empty;
-
-            var tagInfo = !string.IsNullOrEmpty(gitTag) 
-                ? $"**Tag:** `{gitTag}`" 
-                : string.Empty;
-
-            var commitInfo = !string.IsNullOrEmpty(commitHash) ? $"**Commit:** `{commitHash}`" : string.Empty;
-            var buildInfo = !string.IsNullOrEmpty(buildTimestamp) ? $"**Built:** {buildTimestamp}" : string.Empty;
-
-            var fullDescription = string.Join(" | ", new[] { branchInfo, tagInfo, commitInfo, buildInfo }.Where(s => !string.IsNullOrEmpty(s)));
-
-            foreach (var group in groups)
-            {
-                c.SwaggerDoc(group, new OpenApiInfo
-                {
-                    Title = group,
-                    Version = group!.Split(' ').Last(),
-                    Description = fullDescription
-                });
-            }
-
-            // Auth in Swagger
-            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-            {
-                Description = "JWT bearer access token.",
-                Type = SecuritySchemeType.Http,
-                Scheme = "bearer",
-                BearerFormat = "JWT"
-            });
-
-            c.OperationFilter<AuthorizeCheckOperationFilter>();
-
-            var xmlFile = $"{targetAssembly.GetName().Name}.xml";
-            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-            if (File.Exists(xmlPath))
-            {
-                c.IncludeXmlComments(xmlPath);
-            }
+            configure?.Invoke(options);
         });
 
         return services;

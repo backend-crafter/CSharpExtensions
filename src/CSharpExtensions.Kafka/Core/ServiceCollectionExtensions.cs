@@ -6,9 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
 using StackExchange.Redis;
-using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace CSharpExtensions.Kafka.Core;
 
@@ -167,31 +165,6 @@ public static class ServiceCollectionExtensions
             // Register the controller assembly part without calling AddControllers(),
             // which would override or interfere with the host application's MVC configuration
             services.ConfigureOptions<KafkaMaintenanceApplicationPartConfigurator>();
-
-            // Register Swagger document and UI endpoint for Kafka Maintenance group natively
-            services.ConfigureSwaggerGen(options =>
-            {
-                options.SwaggerDoc("Kafka Maintenance", new OpenApiInfo
-                {
-                    Title = "Kafka Maintenance",
-                    Version = "v1",
-                    Description = "Kafka infrastructure maintenance and diagnostics endpoints."
-                });
-
-                var xmlFile = $"{typeof(KafkaMaintenanceController).Assembly.GetName().Name}.xml";
-                var xmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, xmlFile);
-                if (System.IO.File.Exists(xmlPath))
-                {
-                    options.IncludeXmlComments(xmlPath);
-                }
-
-                options.ParameterFilter<KafkaMaintenanceParameterFilter>();
-            });
-
-            services.Configure<SwaggerUIOptions>(options =>
-            {
-                options.SwaggerEndpoint("Kafka%20Maintenance/swagger.json", "Kafka Maintenance");
-            });
         }
 
         // Auto-start message subscriptions registered via builder.Subscribe<TMessage>()

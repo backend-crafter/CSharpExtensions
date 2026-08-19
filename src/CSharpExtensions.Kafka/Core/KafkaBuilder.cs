@@ -381,7 +381,7 @@ public sealed class KafkaBuilder
     /// and outbox health monitoring.
     /// </para>
     /// <para>
-    /// All endpoints appear in Swagger under the <c>Kafka Maintenance</c> group
+    /// All endpoints appear in OpenAPI/Scalar under the <c>Kafka Maintenance</c> group
     /// and are protected with <c>[Authorize]</c>. A valid authentication scheme
     /// must be configured in the consuming application.
     /// </para>

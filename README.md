@@ -34,7 +34,7 @@
    * [Topic & Consumer Group Naming Conventions](#35-topic--consumer-group-naming-conventions)
    * [Stateful Aggregators & Staged Jobs Engine](#36-stateful-aggregators--staged-jobs-engine)
    * [Historical Replay & Topic Watermark Recovery](#37-historical-replay--topic-watermark-recovery)
-   * [Automated Maintenance & Swagger UI Controller](#38-automated-maintenance--swagger-ui-controller)
+   * [Automated Maintenance & Maintenance Controller](#38-automated-maintenance--maintenance-controller)
    * [Complete Configuration Reference](#39-complete-configuration-reference-appsettingsjson)
 4. [Core Foundation & Functional Flow (`CSharpExtensions.Foundation`)](#4-core-foundation--functional-flow-csharpextensionscore)
    * [Railway Oriented Programming (ROP)](#41-railway-oriented-programming-rop)
@@ -55,7 +55,7 @@
    * [ROP to RFC 7807 ProblemDetails Mapping](#53-rop-to-rfc-7807-problemdetails-mapping)
    * [Base Health Controller & Build Metadata](#54-base-health-controller--build-metadata)
    * [Hardened CORS & Correlation Tracking](#55-hardened-cors--correlation-tracking)
-   * [OpenAPI / Swagger Integration](#56-openapi--swagger-integration)
+   * [Native OpenAPI & Scalar API Reference Integration](#56-native-openapi--scalar-api-reference-integration)
 6. [Benchmarks & Performance](#6-benchmarks--performance-comparison)
 7. [Developer CLI (`CSharpExtensions.Kafka.Cli`)](#7-developer-cli-csharpextensionskafkacli)
 8. [Roadmap](#8-roadmap)
@@ -125,7 +125,7 @@ dotnet add package CSharpExtensions.Foundation
 [![NuGet Downloads](https://img.shields.io/nuget/dt/CSharpExtensions.AspNetCore.svg?style=for-the-badge&logo=nuget&color=239120)](https://www.nuget.org/packages/CSharpExtensions.AspNetCore)
 [![Target](https://img.shields.io/badge/target-net10.0-512BD4?style=for-the-badge&logo=dotnet)](https://dotnet.microsoft.com/)
 
-> **Web API & Security Standards**: Unified Actor Authorization (`IActorContext`: `User` vs `Employee` vs `Service`), Hybrid Authentication (JWT Bearer + S2S Header token), automatic ROP-to-RFC 7807 `ProblemDetails` translation, hardened CORS policies, and OpenAPI/Swagger filters.
+> **Web API & Security Standards**: Unified Actor Authorization (`IActorContext`: `User` vs `Employee` vs `Service`), Hybrid Authentication (JWT Bearer + S2S Header token), automatic ROP-to-RFC 7807 `ProblemDetails` translation, hardened CORS policies, and native OpenAPI / Scalar API Reference UI.
 
 ```bash
 dotnet add package CSharpExtensions.AspNetCore
@@ -392,7 +392,7 @@ kafka.Subscribe<EventsOrdersOrderPlacedV1>(subscription =>
 
 ---
 
-### 3.8 Automated Maintenance & Swagger UI Controller
+### 3.8 Automated Maintenance & Maintenance Controller
 
 Enable periodic background pruning and an embedded ASP.NET Core management controller:
 
@@ -403,7 +403,7 @@ services.AddKafka(configuration, kafka =>
     kafka.UseMessageAssembly();
     kafka.UseStagedJobs("OrdersDbConnectionString");
     kafka.UseMaintenance();          // Periodic outbox pruning & distributed lock
-    kafka.UseMaintenanceEndpoints(); // Exposes Swagger UI for lag & DLQ management
+    kafka.UseMaintenanceEndpoints(); // Exposes maintenance endpoints for lag & DLQ management
 });
 ```
 
@@ -769,13 +769,25 @@ app.UseCors("DefaultPolicy");
 
 ---
 
-### 5.6 OpenAPI / Swagger Integration
+### 5.6 Native OpenAPI & Scalar API Reference Integration
 
-Auto-configures XML documentation, JWT Bearer and S2S security schemes, and PII masking filters in Swagger UI:
+Auto-configures native .NET 10 `Microsoft.AspNetCore.OpenApi` document generation and exposes the modern interactive **Scalar API Reference** UI:
 
 ```csharp
-builder.Services.AddSwaggerDocumentation(builder.Configuration, typeof(Program).Assembly);
+// Program.cs - Service Registration
+builder.Services.AddOpenApiDocumentation();
+
+// Program.cs - Pipeline Mapping
+var app = builder.Build();
+
+app.MapScalarDocumentation(options =>
+{
+    options.WithTitle("Enterprise Orders API")
+           .WithTheme(ScalarTheme.Moon);
+});
 ```
+
+Navigate to `/scalar/v1` to explore and execute your API endpoints interactively.
 
 ---
 
@@ -845,8 +857,8 @@ dotnet run --project src/CSharpExtensions.Kafka.Cli -- \
 - [x] **Source Generators**: Compile-time zero-allocation PII masking.
 - [x] **Kafka Ecosystem**: Transactional outbox, S3 claim check, Redis deduplication, Circuit Breaker, Handlers & Streaming Consumers.
 - [x] **OpenID Connect & Trusted Publishing**: Zero-secret automated NuGet publication via GitHub Actions.
+- [x] **Native .NET 10 OpenAPI & Scalar UI**: Complete transition from Swashbuckle to native `Microsoft.AspNetCore.OpenApi` and modern Scalar API Reference.
 - [ ] **Bitmask Permission Engine**: High-performance stack-allocated byte/bitmask permission evaluation (`[RequirePermission]`) with domain categorization.
-- [ ] **Native .NET 10 OpenAPI Migration**: Transition from Swashbuckle to native `Microsoft.AspNetCore.OpenApi` with built-in transformer pipelines and Scalar UI.
 - [ ] **OpenTelemetry Structured Logging**: Zero-allocation OpenTelemetry log exporters with automated PII masking and redaction boundaries.
 - [ ] **OpenTelemetry Distributed Tracing**: Native `ActivitySource` tracing spans for Kafka consumer pipeline, Outbox publishing, and HTTP actor propagation.
 - [ ] **PostgreSQL Outbox Engine**: Native `pg_notify` / LISTEN-NOTIFY realtime outbox dispatcher.

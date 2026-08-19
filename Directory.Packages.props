@@ -5,7 +5,6 @@
     <HealthChecksAbstractionsVersion>10.0.0</HealthChecksAbstractionsVersion>
     <LoggingAbstractionsVersion>10.0.0</LoggingAbstractionsVersion>
     <SystemTextJsonVersion>10.0.0</SystemTextJsonVersion>
-    <SwashbuckleAspNetCoreVersion>6.5.0</SwashbuckleAspNetCoreVersion>
   </PropertyGroup>
   <ItemGroup>
     <!-- Authentication & Identity -->
@@ -20,8 +19,6 @@
     <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions" Version="10.0.0" />
     <!-- Database -->
     <PackageVersion Include="Microsoft.Data.SqlClient" Version="7.0.1" />
-    <!-- API Documentation -->
-    <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <!-- Analyzers & Code Generation -->
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" />
@@ -40,5 +37,8 @@
     <PackageVersion Include="coverlet.collector" Version="[6.0.2]" />
     <PackageVersion Include="libphonenumber-csharp" Version="9.0.31" />
     <PackageVersion Include="Sqids" Version="3.2.1" />
+    <!-- OpenAPI & Scalar Documentation -->
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.11" />
+    <PackageVersion Include="Scalar.AspNetCore" Version="2.16.20" />
   </ItemGroup>
 </Project>

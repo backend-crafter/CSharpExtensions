@@ -1,4 +1,3 @@
-using System.Reflection;
 using CSharpExtensions.AspNetCore.AspNet.Configurations;
 using CSharpExtensions.AspNetCore.AspNet.Middleware;
 using CSharpExtensions.AspNetCore.AspNet.Profiles;
@@ -6,11 +5,11 @@ using CSharpExtensions.AspNetCore.AspNet.Transformers;
 using CSharpExtensions.Foundation.Railway;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Scalar.AspNetCore;
 
 namespace CSharpExtensions.AspNetCore.AspNet.Extensions;
 
@@ -61,37 +60,6 @@ public static class WebApplicationExtensions
         ArgumentNullException.ThrowIfNull(app);
         return app.UseMiddleware<CorrelationIdMiddleware>();
     }
-
-    /// <summary>
-    /// Enables Swagger and Swagger UI middleware with dynamic endpoint discovery.
-    /// </summary>
-    /// <param name="app">The <see cref="IApplicationBuilder"/> to configure.</param>
-    /// <param name="targetAssembly">The assembly where controllers are located (e.g., typeof(Program).Assembly).</param>
-    /// <returns>The same application builder so that multiple calls can be chained.</returns>
-    public static IApplicationBuilder UseSwaggerDocumentation(this IApplicationBuilder app, Assembly targetAssembly)
-    {
-        ArgumentNullException.ThrowIfNull(app);
-        ArgumentNullException.ThrowIfNull(targetAssembly);
-
-        app.UseSwagger();
-        app.UseSwaggerUI(options => 
-        {
-            var groups = targetAssembly.GetTypes()
-                .Where(t => typeof(ControllerBase).IsAssignableFrom(t))
-                .Select(t => t.GetCustomAttribute<ApiExplorerSettingsAttribute>()?.GroupName)
-                .Where(g => !string.IsNullOrEmpty(g))
-                .Distinct()
-                .OrderBy(g => g);
-
-            foreach (var group in groups)
-            {
-                var encodedGroup = Uri.EscapeDataString(group!);
-                options.SwaggerEndpoint($"{encodedGroup}/swagger.json", group);
-            }
-        });
-        
-        return app;
-    }
     
     /// <summary>
     /// Configures path base routing if PathBase is set in configuration.
@@ -113,5 +81,28 @@ public static class WebApplicationExtensions
         }
 
         return app;
+    }
+
+    /// <summary>
+    /// Maps native OpenAPI endpoints and exposes the modern interactive Scalar API Reference UI.
+    /// </summary>
+    /// <param name="endpoints">The endpoint route builder.</param>
+    /// <param name="configureScalar">Optional delegate to customize Scalar UI options.</param>
+    /// <returns>The endpoint route builder for method chaining.</returns>
+    public static IEndpointRouteBuilder MapScalarDocumentation(
+        this IEndpointRouteBuilder endpoints,
+        Action<Scalar.AspNetCore.ScalarOptions>? configureScalar = null)
+    {
+        ArgumentNullException.ThrowIfNull(endpoints);
+
+        endpoints.MapOpenApi();
+        endpoints.MapScalarApiReference(options =>
+        {
+            options.WithTitle("CSharpExtensions API Reference")
+                   .WithTheme(Scalar.AspNetCore.ScalarTheme.Moon);
+            configureScalar?.Invoke(options);
+        });
+
+        return endpoints;
     }
 }
